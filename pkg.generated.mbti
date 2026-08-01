@@ -1,0 +1,272 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "2515050243qyf/moonbit-energybalance"
+
+import {
+  "moonbitlang/core/debug",
+}
+
+// Values
+pub fn air_pseudo_component() -> Substance
+
+pub fn air_stream(id~ : String, molar_flow~ : Double, temperature~ : Double) -> Stream
+
+pub fn balance_summary(BalanceResult) -> String
+
+pub fn benzene_liquid() -> Substance
+
+pub fn carbon_dioxide_gas() -> Substance
+
+pub fn cooler(Stream, Double) -> HeaterResult
+
+pub fn cooling_water_required(Double, Double, Double) -> Double
+
+pub fn duty_report(unit_id~ : String, Stream, Stream) -> DutyReport
+
+pub fn effectiveness_ntu(counter_current~ : Bool, Double, Double, Double) -> Double
+
+pub fn enthalpy_flow_sum(Array[Stream]) -> Double
+
+pub fn ethanol_liquid() -> Substance
+
+pub fn exchanger_summary(HeatExchangerResult) -> String
+
+pub fn exchanger_ua(Double, Double) -> Double
+
+pub fn flash_vaporize(Stream, Substance, Substance, Double, Double) -> FlashResult
+
+pub fn generic_substance(id~ : String, name~ : String, cp~ : Double) -> Substance
+
+pub fn has_issues(Array[ValidationIssue]) -> Bool
+
+pub fn heat_duty(Stream, Stream) -> Double
+
+pub fn heat_exchanger(Stream, Double, Stream, Double, arrangement? : FlowArrangement) -> HeatExchangerResult
+
+pub fn heater(Stream, Double) -> HeaterResult
+
+pub fn ice_solid() -> Substance
+
+pub fn is_balanced(BalanceResult, tolerance? : Double) -> Bool
+
+pub fn issue_count_for_streams(Array[Stream]) -> Int
+
+pub fn lmtd(Double, Double, Double, Double, arrangement? : FlowArrangement) -> Double
+
+pub fn methane_gas() -> Substance
+
+pub fn mixer(id~ : String, Array[Stream], Double) -> Stream
+
+pub fn natural_gas_stream(id~ : String, molar_flow~ : Double, temperature~ : Double) -> Stream
+
+pub fn nitrogen_gas() -> Substance
+
+pub fn oxygen_gas() -> Substance
+
+pub fn parallel_lmtd(Double, Double, Double, Double) -> Double
+
+pub fn process_water_stream(id~ : String, molar_flow~ : Double, temperature~ : Double) -> Stream
+
+pub fn required_heat(Array[Stream], Array[Stream], shaft_work? : Double, kinetic? : Double, potential? : Double) -> Double
+
+pub fn run_cooling_case(CoolingCase) -> ScenarioResult
+
+pub fn run_exchanger_case(ExchangerCase) -> ScenarioResult
+
+pub fn run_heating_case(HeatingCase) -> ScenarioResult
+
+pub fn service_hint(Double) -> String
+
+pub fn split(Stream, Double) -> (Stream, Stream)
+
+pub fn steady_state_balance(Array[Stream], Array[Stream], terms? : BalanceTerms) -> BalanceResult
+
+pub fn steam_required(Double, Double) -> Double
+
+pub fn toluene_liquid() -> Substance
+
+pub fn total_scenario_duty(Array[ScenarioResult]) -> Double
+
+pub fn utility_estimate(name~ : String, duty~ : Double, cp~ : Double, inlet_temperature~ : Double, outlet_temperature~ : Double) -> UtilityEstimate
+
+pub fn utility_summary(UtilityEstimate) -> String
+
+pub fn validate_fraction(Double) -> Array[ValidationIssue]
+
+pub fn validate_stream(Stream) -> Array[ValidationIssue]
+
+pub fn water_liquid() -> Substance
+
+pub fn water_vapor() -> Substance
+
+// Errors
+
+// Types and methods
+pub struct BalanceResult {
+  inlet_enthalpy_flow : Double
+  outlet_enthalpy_flow : Double
+  heat : Double
+  shaft_work : Double
+  residual : Double
+} derive(@debug.Debug)
+
+pub struct BalanceTerms {
+  heat : Double
+  shaft_work : Double
+  kinetic : Double
+  potential : Double
+} derive(@debug.Debug)
+pub fn BalanceTerms::BalanceTerms(heat? : Double, shaft_work? : Double, kinetic? : Double, potential? : Double) -> Self
+
+pub struct ComponentFlow {
+  substance : Substance
+  molar_flow : Double
+} derive(@debug.Debug)
+pub fn ComponentFlow::ComponentFlow(substance~ : Substance, molar_flow~ : Double) -> Self
+
+pub struct CoolingCase {
+  id : String
+  feed : Stream
+  target_temperature : Double
+} derive(@debug.Debug)
+pub fn CoolingCase::CoolingCase(id~ : String, feed~ : Stream, target_temperature~ : Double) -> Self
+
+pub(all) enum CpModel {
+  Constant(Double)
+  Linear(Double, Double)
+  Polynomial(Double, Double, Double, Double)
+} derive(@debug.Debug)
+pub fn CpModel::cp_at(Self, Double) -> Double
+pub fn CpModel::integral(Self, Double, Double) -> Double
+
+pub struct DutyReport {
+  unit_id : String
+  inlet_id : String
+  outlet_id : String
+  inlet_temperature : Double
+  outlet_temperature : Double
+  molar_flow : Double
+  duty : Double
+  service_hint : String
+} derive(@debug.Debug)
+pub fn DutyReport::summary(Self) -> String
+
+pub struct ExchangerCase {
+  id : String
+  hot_in : Stream
+  hot_out_temperature : Double
+  cold_in : Stream
+  cold_out_temperature : Double
+  arrangement : FlowArrangement
+} derive(@debug.Debug)
+pub fn ExchangerCase::ExchangerCase(id~ : String, hot_in~ : Stream, hot_out_temperature~ : Double, cold_in~ : Stream, cold_out_temperature~ : Double, arrangement? : FlowArrangement) -> Self
+
+pub struct FlashResult {
+  vapor : Stream
+  liquid : Stream
+  duty : Double
+  vapor_fraction : Double
+} derive(@debug.Debug)
+
+pub(all) enum FlowArrangement {
+  CounterCurrent
+  Parallel
+} derive(Eq, @debug.Debug)
+
+pub struct HeatExchangerResult {
+  hot_out : Stream
+  cold_out : Stream
+  duty : Double
+  lmtd : Double
+  ua : Double
+  heat_recovery_fraction : Double
+} derive(@debug.Debug)
+
+pub struct HeaterResult {
+  outlet : Stream
+  duty : Double
+} derive(@debug.Debug)
+
+pub struct HeatingCase {
+  id : String
+  feed : Stream
+  target_temperature : Double
+} derive(@debug.Debug)
+pub fn HeatingCase::HeatingCase(id~ : String, feed~ : Stream, target_temperature~ : Double) -> Self
+
+pub struct LatentHeat {
+  transition_temperature : Double
+  heat : Double
+  direction : PhaseChangeDirection
+} derive(@debug.Debug)
+
+pub(all) enum Phase {
+  Solid
+  Liquid
+  Vapor
+  UnknownPhase
+} derive(Eq, @debug.Debug)
+
+pub(all) enum PhaseChangeDirection {
+  Melt
+  Freeze
+  Vaporize
+  Condense
+} derive(Eq, @debug.Debug)
+
+pub struct ScenarioResult {
+  id : String
+  duty : Double
+  description : String
+} derive(@debug.Debug)
+
+pub struct Stream {
+  id : String
+  temperature : Double
+  components : Array[ComponentFlow]
+} derive(@debug.Debug)
+pub fn Stream::component_fraction(Self, String) -> Double
+pub fn Stream::enthalpy_flow(Self) -> Double
+pub fn Stream::heat_capacity_flow(Self) -> Double
+pub fn Stream::mixture(id~ : String, components~ : Array[ComponentFlow], temperature~ : Double) -> Self
+pub fn Stream::molar_flow(Self) -> Double
+pub fn Stream::pure(id~ : String, substance~ : Substance, molar_flow~ : Double, temperature~ : Double) -> Self
+pub fn Stream::with_id(Self, String) -> Self
+pub fn Stream::with_temperature(Self, Double) -> Self
+
+pub struct Substance {
+  id : String
+  name : String
+  phase : Phase
+  cp_model : CpModel
+  reference_temperature : Double
+  formation_enthalpy : Double
+  latent_heats : Array[LatentHeat]
+} derive(@debug.Debug)
+pub fn Substance::constant_cp(id~ : String, name~ : String, phase~ : Phase, cp~ : Double, reference_temperature~ : Double) -> Self
+pub fn Substance::enthalpy_at(Self, Double) -> Double
+pub fn Substance::linear_cp(id~ : String, name~ : String, phase~ : Phase, a~ : Double, b~ : Double, reference_temperature~ : Double) -> Self
+pub fn Substance::phase_change_enthalpy_change(Self, Double, Double) -> Double
+pub fn Substance::polynomial_cp(id~ : String, name~ : String, phase~ : Phase, a~ : Double, b~ : Double, c~ : Double, d~ : Double, reference_temperature~ : Double) -> Self
+pub fn Substance::sensible_enthalpy_change(Self, Double, Double) -> Double
+pub fn Substance::with_formation_enthalpy(Self, Double) -> Self
+pub fn Substance::with_latent_heat(Self, transition_temperature~ : Double, heat~ : Double, direction~ : PhaseChangeDirection) -> Self
+
+pub struct UtilityEstimate {
+  name : String
+  duty : Double
+  required_flow : Double
+  inlet_temperature : Double
+  outlet_temperature : Double
+} derive(@debug.Debug)
+
+pub enum ValidationIssue {
+  NegativeFlow(String)
+  EmptyStream(String)
+  NonPositiveTemperature(String)
+  InvalidFraction(Double)
+} derive(@debug.Debug)
+
+// Type aliases
+
+// Traits
+
