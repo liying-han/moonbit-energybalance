@@ -1,0 +1,5 @@
+import {
+  "2515050243qyf/moonbit-energybalance" @energy,
+}
+
+pkgtype(kind: "executable")
