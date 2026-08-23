@@ -179,3 +179,231 @@ test "reports, exports, costs, dynamics, and case-study empty paths" {
   assert_true(dynamic_summary([]) == "dynamic simulation: empty")
   assert_true(dynamic_is_monotonic([], true))
 }
+
+///|
+test "operating envelope public API covers selection and reporting paths" {
+  let constraints = standard_operating_constraints()
+  let first = operating_point(
+    300.0, 0.0, 100.0, 100.0, 5.0, 1.0, 0.0, constraints,
+  )
+  let second = operating_point(
+    360.0, 2.0, 250.0, -200.0, 10.0, 2.0, 0.0, constraints,
+  )
+  let invalid_constraints = OperatingConstraints::new(
+    minimum_temperature_k=400.0,
+    maximum_temperature_k=300.0,
+    minimum_flow_kg_per_s=0.0,
+    maximum_flow_kg_per_s=1.0,
+    minimum_pressure_kpa=0.0,
+    maximum_pressure_kpa=1.0,
+    minimum_duty_w=1.0,
+    maximum_duty_w=-1.0,
+    maximum_cost_per_h=-1.0,
+  )
+  let invalid = operating_point(
+    300.0, 1.0, 100.0, 0.0, 0.0, 0.0, 0.0, invalid_constraints,
+  )
+  let envelope = make_operating_envelope([first, second, invalid], constraints)
+  assert_true(operating_point_specific_duty(first) == 0.0)
+  assert_true(operating_point_specific_duty(second) == -100.0)
+  assert_true(operating_point_specific_cost(second) == 5.0)
+  assert_true(operating_point_minimum_margin(first, constraints) >= 0.0)
+  assert_true(normalized_operating_score(second, constraints) >= 0.0)
+  assert_true(operating_point_is_invalid(invalid))
+  assert_true(envelope_has_feasible_point(envelope))
+  assert_true(envelope_feasible_fraction(envelope) > 0.0)
+  assert_true(envelope_average_score(envelope) >= 0.0)
+  assert_true(envelope_average_margin(envelope) >= 0.0)
+  assert_true(envelope_total_energy_kwh(envelope) > 0.0)
+  assert_true(envelope_total_cost(envelope) > 0.0)
+  assert_true(envelope_total_emissions(envelope) > 0.0)
+  assert_true(envelope_infeasible_points(envelope).length() == 1)
+  assert_true(envelope_invalid_points(envelope).length() == 1)
+  assert_true(envelope_points_with_minimum_margin(envelope, 0.0).length() == 3)
+  assert_true(
+    envelope_points_in_temperature_band(envelope, 300.0, 360.0).length() == 3,
+  )
+  assert_true(envelope_points_in_flow_band(envelope, 0.0, 2.0).length() == 3)
+  assert_true(envelope_best_by_emissions(envelope) is Some(_))
+  assert_true(envelope_best_by_margin(envelope) is Some(_))
+  assert_true(select_lowest_duty(envelope) is Some(_))
+  assert_true(select_safest_margin(envelope) is Some(_))
+  assert_true(point_dominates(first, second, true, true, true))
+  assert_true(operating_point_cost_score(second, 10.0) > 0.0)
+  assert_true(operating_point_duty_score(second, 100.0) > 0.0)
+  assert_true(operating_point_emissions_score(second, 1.0) > 0.0)
+  assert_true(
+    weighted_operating_score(second, 1.0, 1.0, 1.0, 10.0, 100.0, 1.0) > 0.0,
+  )
+  assert_true(
+    envelope_best_weighted(envelope, 1.0, 1.0, 1.0, 10.0, 100.0, 1.0) is Some(_),
+  )
+  assert_true(envelope_status_text(Feasible) == "feasible")
+  assert_true(envelope_status_text(Infeasible) == "infeasible")
+  assert_true(envelope_point_text(second).contains("flow="))
+  assert_true(envelope_csv_row(second).contains("feasible"))
+  assert_true(envelope_csv_line_count(envelope_csv(envelope)) == 4)
+}
+
+///|
+test "operating envelope transforms, ranking, and plans cover edge paths" {
+  let constraints = standard_operating_constraints()
+  let first = operating_point(
+    300.0, 1.0, 100.0, 100.0, 20.0, 1.0, 0.0, constraints,
+  )
+  let second = operating_point(
+    400.0, 3.0, 300.0, 500.0, 40.0, 3.0, 0.0, constraints,
+  )
+  let envelope = make_operating_envelope([first, second], constraints)
+  let changed_cost = operating_point_with_cost(first, 4.0, 0.5, constraints)
+  let changed_duty = operating_point_with_duty(
+    first, 50.0, 3.0, 0.4, constraints,
+  )
+  let changed_state = operating_point_with_process_state(
+    first, 320.0, 1.5, 150.0, constraints,
+  )
+  let interpolated = envelope_interpolate_flow(first, second, 2.0, constraints)
+  let average = envelope_weighted_average(
+    [first, second],
+    [-1.0, 1.0],
+    constraints,
+  )
+  let plan = ramp_plan([second, first], 10.0, 1.0)
+  let selection = envelope_selection_from_point(
+    envelope, first, "selected for regression test",
+  )
+  assert_true(changed_cost.cost_per_h == 4.0)
+  assert_true(changed_duty.duty_w == 50.0)
+  assert_true(changed_state.temperature_k == 320.0)
+  assert_true(interpolated.flow_kg_per_s == 2.0)
+  assert_true(average.temperature_k == 400.0)
+  assert_true(nearest_operating_point(envelope, changed_state) is Some(_))
+  assert_true(
+    nearest_feasible_operating_point(envelope, changed_state) is Some(_),
+  )
+  assert_true(ramp_step_time_s(second, first, 10.0, 1.0) == 10.0)
+  assert_true(plan.total_time_s == 10.0)
+  assert_true(ramp_plan_is_monotonic_temperature(plan, false))
+  assert_true(ramp_plan_is_monotonic_flow(plan, false))
+  assert_true(ramp_plan_summary(plan).contains("valid="))
+  assert_true(envelope_rank_by_cost(envelope, first) == 1)
+  assert_true(envelope_rank_by_duty(envelope, second) == 2)
+  assert_true(envelope_rank_by_margin(envelope, first) >= 1)
+  assert_true(envelope_selection_is_valid(selection))
+  assert_true(envelope_selection_text(selection).contains("selected"))
+  assert_true(envelope_operating_window(envelope).0 == 300.0)
+  assert_true(envelope_pressure_window(envelope).1 == 300.0)
+  assert_true(envelope_duty_window(envelope).0 == 100.0)
+  assert_true(envelope_cost_window(envelope).1 == 40.0)
+  assert_true(envelope_contains_temperature(envelope, 350.0))
+  assert_true(envelope_contains_flow(envelope, 2.0))
+  assert_true(envelope_contains_pressure(envelope, 200.0))
+  assert_true(envelope_duty_span(envelope) == 400.0)
+  assert_true(envelope_cost_span(envelope) == 20.0)
+  assert_true(envelope_temperature_span(envelope) == 100.0)
+  assert_true(envelope_flow_span(envelope) == 2.0)
+  assert_true(
+    envelope_is_single_point(make_operating_envelope([first], constraints)),
+  )
+  assert_true(envelope_all_valid(envelope))
+  assert_true(envelope_all_feasible(envelope))
+  assert_true(envelope_quality_index(envelope) > 0.0)
+  assert_true(envelope_stability_index(envelope) == 1.0)
+  assert_true(envelope_select_by_target(envelope, 305.0, 1.1) is Some(_))
+  assert_true(envelope_to_rows(envelope).length() == 2)
+  assert_true(operating_point_to_csv(first).contains("300"))
+  assert_true(envelope_validate(envelope_project_and_recalculate(envelope)))
+}
+
+///|
+test "equipment fluid and exchanger calculations cover engineering branches" {
+  let water = water_properties(25.0)
+  assert_true(water_viscosity_pa_s(-300.0) > 0.0)
+  assert_true(prandtl_number(water) > 0.0)
+  assert_true(nusselt_laminar_constant_wall() == 3.66)
+  assert_true(pipe_heat_transfer_coefficient(0.0, 1.0, water) == 0.0)
+  assert_true(pipe_heat_transfer_coefficient(0.05, 0.1, water) > 0.0)
+  assert_true(convection_resistance_m2_k_per_w(0.0) == 0.0)
+  assert_true(convection_resistance_m2_k_per_w(100.0) > 0.0)
+  assert_true(
+    overall_heat_transfer_coefficient(100.0, 0.001, 200.0, 0.001) > 0.0,
+  )
+  assert_true(thermal_diffusivity_m2_per_s(water) > 0.0)
+  assert_true(mass_transfer_sherwood(1000.0, 1.0) > 0.0)
+  assert_true(schmidt_number(0.001, 1000.0, 1.0e-9) > 0.0)
+  assert_true(size_pump(1.0, 100000.0, 1000.0, 0.8).shaft_power_w > 0.0)
+  assert_true(size_pump(1.0, 100000.0, 0.0, 0.8).shaft_power_w == 0.0)
+  assert_true(size_tank(1.0, 60.0, 0.5).volume_m3 > 0.0)
+  assert_true(vessel_wall_area_m2(2.0, 3.0) > 0.0)
+  assert_true(vessel_volume_m3(2.0, 3.0) > 0.0)
+  assert_true(safety_factor_load(-100.0, 1.5) == 150.0)
+  assert_true(parallel_equipment_count(10.0, 3.0) == 4)
+  assert_true(parallel_equipment_count(10.0, 0.0) == 0)
+  assert_true(heat_recovery_fraction(100.0, 50.0) > 0.0)
+  assert_true(parallel_lmtd(400.0, 350.0, 300.0, 320.0) > 0.0)
+  assert_true(effectiveness_ntu(counter_current=false, 1.0, 2.0, 1000.0) > 0.0)
+  assert_true(heat_recovery_fraction(100.0, 0.0) == 0.0)
+}
+
+///|
+test "dynamics costs exports and case studies cover positive branches" {
+  let stream = process_water_stream(
+    id="feed",
+    molar_flow=1.0,
+    temperature=300.0,
+  )
+  let dynamic = simulate_lumped_heating(340.0, 300.0, 1000.0, 500.0, 5.0, 4)
+  assert_true(stable_time_step(100.0, 1000.0, 20.0) > 0.0)
+  assert_true(thermal_time_constant_s(100.0, 1000.0) == 10.0)
+  assert_true(
+    dynamic_step(dynamic[0], 300.0, 0.0, 100.0, 1.0).temperature_k ==
+    dynamic[0].temperature_k,
+  )
+  assert_true(integrate_duty_profile([0.0], [1.0]) == 0.0)
+  assert_true(first_order_response(0.0, 1.0, 10.0, 5.0) > 0.0)
+  assert_true(first_order_response(0.0, 1.0, 10.0, 0.0) == 1.0)
+  assert_true(response_time_to_fraction(5.0, 0.5) > 0.0)
+  assert_true(response_time_to_fraction(0.0, 0.5) == 0.0)
+  assert_true(dynamic_peak_duty(dynamic) > 0.0)
+  assert_true(dynamic_average_temperature(dynamic) > 0.0)
+  assert_true(dynamic_temperature_error(dynamic[0], 300.0) > 0.0)
+  assert_true(dynamic_summary(dynamic).contains("duration"))
+  assert_true(dynamic_is_monotonic(dynamic, false))
+  assert_true(annualized_capital_cost(1000.0, 0.0, 10, 8000.0) > 0.0)
+  assert_true(maintenance_cost_per_year(1000.0, 0.1) == 100.0)
+  assert_true(contingency_cost(1000.0, 0.1) == 100.0)
+  assert_true(inflation_adjusted_cost(1000.0, 0.1, 2) > 1000.0)
+  assert_true(discount_factor(0.1, 2) < 1.0)
+  assert_true(levelized_cost(1000.0, 100.0, 1000.0, 10) > 0.0)
+  assert_true(cost_saving_percent(100.0, 80.0) == 20.0)
+  let baseline = service_cost_estimate(
+    steam_utility(1.0, 120.0, 180.0),
+    8000.0,
+    0.12,
+    0.2,
+  )
+  let improved = service_cost_estimate(
+    steam_utility(0.8, 120.0, 180.0),
+    8000.0,
+    0.10,
+    0.1,
+  )
+  assert_true(emissions_saving_kg(baseline, improved) > 0.0)
+  assert_true(cost_summary(baseline).contains("annual cost"))
+  assert_true(run_water_preheat_case(1.0, 300.0, 350.0).duty_w > 0.0)
+  assert_true(run_natural_gas_case(1.0, 300.0, 400.0).duty_w > 0.0)
+  assert_true(
+    run_air_drying_case(1.0, 30.0, 0.7, 12.0, 0.9).equipment_area_m2 > 0.0,
+  )
+  assert_true(
+    case_study_summary([run_water_preheat_case(1.0, 300.0, 350.0)]).contains(
+      "water-preheat",
+    ),
+  )
+  let scenario = run_heating_case(
+    HeatingCase::HeatingCase(id="case", feed=stream, target_temperature=320.0),
+  )
+  assert_true(scenario_results_csv([scenario]).contains("case"))
+  assert_true(csv_escape("a,b") == "[a,b]")
+  assert_true(csv_join(["a", "b"]) == "a,b")
+}

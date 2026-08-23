@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.2.3
+
+- Expanded regression and boundary coverage across operating envelopes,
+  equipment sizing, fluid properties, heat exchangers, dynamics, costs, and
+  case-study exports.
+
 ## 0.2.2
 
 - Documented the operating-envelope API, its screening assumptions, and its
