@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.2.1
+
+- Added operating-window scanning, feasibility filtering, Pareto selection,
+  ramp planning, constraint projection, and CSV reporting for process
+  operating points.
+- Added boundary coverage for envelope validation, scan grids, projections,
+  selections, and ramp plans.
+
 ## 0.2.0
 
 - Added explicit unit conversions, thermodynamic integration helpers, and

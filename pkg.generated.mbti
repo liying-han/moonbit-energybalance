@@ -70,6 +70,8 @@ pub fn benzene_liquid() -> Substance
 
 pub fn boiler_duty_w(Double, SteamState, SteamState) -> Double
 
+pub fn carbon_cost_model(Double, Double, Double) -> Double
+
 pub fn carbon_dioxide_gas() -> Substance
 
 pub fn case_study_average_quality(Array[CaseStudyResult]) -> Double
@@ -86,6 +88,12 @@ pub fn celsius_to_kelvin(Double) -> Double
 
 pub fn chilled_water_utility(Double, Double, Double) -> UtilityDesign
 
+pub fn clamp_operating_flow(Double, OperatingConstraints) -> Double
+
+pub fn clamp_operating_pressure(Double, OperatingConstraints) -> Double
+
+pub fn clamp_operating_temperature(Double, OperatingConstraints) -> Double
+
 pub fn coil_bypass_factor(Double, Double, Double) -> Double
 
 pub fn coil_contact_factor(Double) -> Double
@@ -93,6 +101,8 @@ pub fn coil_contact_factor(Double) -> Double
 pub fn cold_stream_duty_kw(ThermalStreamTarget) -> Double
 
 pub fn combine_uncertainties(Double, Double) -> Double
+
+pub fn combined_duty_model(Double, Double, Double, Double, Double, Double) -> Double
 
 pub fn compressor_power_w(Double, Double, Double, Double, Double) -> Double
 
@@ -134,6 +144,8 @@ pub fn cycle_capacity_factor(RankineCycleResult, Double, Double) -> Double
 
 pub fn cycle_heat_rate_j_per_j(RankineCycleResult) -> Double
 
+pub fn default_operating_point(OperatingConstraints) -> OperatingPoint
+
 pub fn dehumidification_point(PsychrometricPoint, Double) -> PsychrometricPoint
 
 pub fn dew_point_c(Double, Double, Double) -> Double
@@ -170,11 +182,199 @@ pub fn effectiveness_ntu(counter_current~ : Bool, Double, Double, Double) -> Dou
 
 pub fn emissions_saving_kg(CostEstimate, CostEstimate) -> Double
 
+pub fn empty_envelope(OperatingConstraints) -> OperatingEnvelope
+
 pub fn energy_balance_quality(Double, Double, Double) -> QualityResult
 
 pub fn enthalpy_change_with_formation(Substance, Double, Double) -> Double
 
 pub fn enthalpy_flow_sum(Array[Stream]) -> Double
+
+pub fn envelope_all_feasible(OperatingEnvelope) -> Bool
+
+pub fn envelope_all_valid(OperatingEnvelope) -> Bool
+
+pub fn envelope_append(OperatingEnvelope, OperatingEnvelope) -> OperatingEnvelope
+
+pub fn envelope_average_margin(OperatingEnvelope) -> Double
+
+pub fn envelope_average_score(OperatingEnvelope) -> Double
+
+pub fn envelope_best_by(OperatingEnvelope, ObjectiveDirection, (OperatingPoint) -> Double) -> OperatingPoint?
+
+pub fn envelope_best_by_cost(OperatingEnvelope) -> OperatingPoint?
+
+pub fn envelope_best_by_duty(OperatingEnvelope) -> OperatingPoint?
+
+pub fn envelope_best_by_emissions(OperatingEnvelope) -> OperatingPoint?
+
+pub fn envelope_best_by_margin(OperatingEnvelope) -> OperatingPoint?
+
+pub fn envelope_best_weighted(OperatingEnvelope, Double, Double, Double, Double, Double, Double) -> OperatingPoint?
+
+pub fn envelope_center(OperatingEnvelope) -> OperatingPoint
+
+pub fn envelope_center_is_feasible(OperatingEnvelope) -> Bool
+
+pub fn envelope_contains_flow(OperatingEnvelope, Double) -> Bool
+
+pub fn envelope_contains_pressure(OperatingEnvelope, Double) -> Bool
+
+pub fn envelope_contains_temperature(OperatingEnvelope, Double) -> Bool
+
+pub fn envelope_cost_per_feasible_point(OperatingEnvelope) -> Double
+
+pub fn envelope_cost_span(OperatingEnvelope) -> Double
+
+pub fn envelope_cost_window(OperatingEnvelope) -> (Double, Double)
+
+pub fn envelope_count_by_status(OperatingEnvelope, EnvelopeStatus) -> Int
+
+pub fn envelope_csv(OperatingEnvelope) -> String
+
+pub fn envelope_csv_header() -> String
+
+pub fn envelope_csv_line_count(String) -> Int
+
+pub fn envelope_csv_row(OperatingPoint) -> String
+
+pub fn envelope_distance_from_center(OperatingEnvelope, OperatingPoint) -> Double
+
+pub fn envelope_duty_span(OperatingEnvelope) -> Double
+
+pub fn envelope_duty_window(OperatingEnvelope) -> (Double, Double)
+
+pub fn envelope_emissions_per_feasible_point(OperatingEnvelope) -> Double
+
+pub fn envelope_energy_report(OperatingEnvelope) -> String
+
+pub fn envelope_feasibility_report(OperatingEnvelope) -> String
+
+pub fn envelope_feasible_count(OperatingEnvelope) -> Int
+
+pub fn envelope_feasible_fraction(OperatingEnvelope) -> Double
+
+pub fn envelope_feasible_points(OperatingEnvelope) -> Array[OperatingPoint]
+
+pub fn envelope_filter(OperatingEnvelope, (OperatingPoint) -> Bool) -> OperatingEnvelope
+
+pub fn envelope_filter_cost(OperatingEnvelope, Double) -> OperatingEnvelope
+
+pub fn envelope_filter_feasible(OperatingEnvelope) -> OperatingEnvelope
+
+pub fn envelope_filter_margin(OperatingEnvelope, Double) -> OperatingEnvelope
+
+pub fn envelope_filter_negative_duty(OperatingEnvelope) -> OperatingEnvelope
+
+pub fn envelope_filter_positive_duty(OperatingEnvelope) -> OperatingEnvelope
+
+pub fn envelope_flow_span(OperatingEnvelope) -> Double
+
+pub fn envelope_from_points(Array[OperatingPoint], OperatingConstraints) -> OperatingEnvelope
+
+pub fn envelope_has_feasible_point(OperatingEnvelope) -> Bool
+
+pub fn envelope_has_invalid_input(OperatingEnvelope) -> Bool
+
+pub fn envelope_infeasible_points(OperatingEnvelope) -> Array[OperatingPoint]
+
+pub fn envelope_interpolate_flow(OperatingPoint, OperatingPoint, Double, OperatingConstraints) -> OperatingPoint
+
+pub fn envelope_interpolate_temperature(OperatingPoint, OperatingPoint, Double, OperatingConstraints) -> OperatingPoint
+
+pub fn envelope_invalid_points(OperatingEnvelope) -> Array[OperatingPoint]
+
+pub fn envelope_is_duplicate_free(OperatingEnvelope) -> Bool
+
+pub fn envelope_is_empty(OperatingEnvelope) -> Bool
+
+pub fn envelope_is_single_point(OperatingEnvelope) -> Bool
+
+pub fn envelope_merge_points(Array[OperatingPoint], OperatingConstraints) -> OperatingEnvelope
+
+pub fn envelope_operating_cost_report(OperatingEnvelope) -> String
+
+pub fn envelope_operating_window(OperatingEnvelope) -> (Double, Double, Double, Double)
+
+pub fn envelope_pareto_frontier(OperatingEnvelope, Bool, Bool, Bool) -> Array[OperatingPoint]
+
+pub fn envelope_point_count(OperatingEnvelope) -> Int
+
+pub fn envelope_point_text(OperatingPoint) -> String
+
+pub fn envelope_points_in_flow_band(OperatingEnvelope, Double, Double) -> Array[OperatingPoint]
+
+pub fn envelope_points_in_temperature_band(OperatingEnvelope, Double, Double) -> Array[OperatingPoint]
+
+pub fn envelope_points_with_minimum_margin(OperatingEnvelope, Double) -> Array[OperatingPoint]
+
+pub fn envelope_pressure_window(OperatingEnvelope) -> (Double, Double)
+
+pub fn envelope_project_and_recalculate(OperatingEnvelope) -> OperatingEnvelope
+
+pub fn envelope_project_to_constraints(OperatingEnvelope) -> OperatingEnvelope
+
+pub fn envelope_quality_index(OperatingEnvelope) -> Double
+
+pub fn envelope_rank_by_cost(OperatingEnvelope, OperatingPoint) -> Int
+
+pub fn envelope_rank_by_duty(OperatingEnvelope, OperatingPoint) -> Int
+
+pub fn envelope_rank_by_margin(OperatingEnvelope, OperatingPoint) -> Int
+
+pub fn envelope_recalculate_scores(OperatingEnvelope) -> OperatingEnvelope
+
+pub fn envelope_recompute_status(OperatingEnvelope) -> OperatingEnvelope
+
+pub fn envelope_remove_duplicates(OperatingEnvelope) -> OperatingEnvelope
+
+pub fn envelope_report(OperatingEnvelope) -> String
+
+pub fn envelope_retain_best_cost(OperatingEnvelope, Int) -> Array[OperatingPoint]
+
+pub fn envelope_retain_best_duty(OperatingEnvelope, Int) -> Array[OperatingPoint]
+
+pub fn envelope_retain_best_margin(OperatingEnvelope, Int) -> Array[OperatingPoint]
+
+pub fn envelope_select_by_target(OperatingEnvelope, Double, Double) -> OperatingPoint?
+
+pub fn envelope_selection_from_point(OperatingEnvelope, OperatingPoint, String) -> EnvelopeSelection
+
+pub fn envelope_selection_is_valid(EnvelopeSelection) -> Bool
+
+pub fn envelope_selection_text(EnvelopeSelection) -> String
+
+pub fn envelope_stability_index(OperatingEnvelope) -> Double
+
+pub fn envelope_status_is_consistent(OperatingEnvelope) -> Bool
+
+pub fn envelope_status_text(EnvelopeStatus) -> String
+
+pub fn envelope_summary_text(EnvelopeSummary) -> String
+
+pub fn envelope_take_feasible(OperatingEnvelope, Int) -> Array[OperatingPoint]
+
+pub fn envelope_temperature_span(OperatingEnvelope) -> Double
+
+pub fn envelope_to_rows(OperatingEnvelope) -> Array[String]
+
+pub fn envelope_total_cost(OperatingEnvelope) -> Double
+
+pub fn envelope_total_emissions(OperatingEnvelope) -> Double
+
+pub fn envelope_total_energy_kwh(OperatingEnvelope) -> Double
+
+pub fn envelope_trim_infeasible(OperatingEnvelope) -> OperatingEnvelope
+
+pub fn envelope_trim_invalid(OperatingEnvelope) -> OperatingEnvelope
+
+pub fn envelope_validate(OperatingEnvelope) -> Bool
+
+pub fn envelope_validation_message(OperatingEnvelope) -> String
+
+pub fn envelope_values_are_finite(OperatingEnvelope) -> Bool
+
+pub fn envelope_weighted_average(Array[OperatingPoint], Array[Double], OperatingConstraints) -> OperatingPoint
 
 pub fn ethanol_liquid() -> Substance
 
@@ -286,11 +486,19 @@ pub fn levelized_cost(Double, Double, Double, Int) -> Double
 
 pub fn limiting_reaction_extent(Array[SpeciesRate], Array[ReactionTerm]) -> Double
 
+pub fn linear_cost_model(Double, Double, Double, Double) -> Double
+
+pub fn linear_duty_model(Double, Double, Double, Double) -> Double
+
+pub fn linear_emissions_model(Double, Double) -> Double
+
 pub fn liters_per_minute_to_cubic_meters_per_second(Double) -> Double
 
 pub fn lmtd(Double, Double, Double, Double, arrangement? : FlowArrangement) -> Double
 
 pub fn maintenance_cost_per_year(Double, Double) -> Double
+
+pub fn make_operating_envelope(Array[OperatingPoint], OperatingConstraints) -> OperatingEnvelope
 
 pub fn mass_flow_to_molar_flow(Double, Double) -> Double
 
@@ -324,6 +532,10 @@ pub fn molar_flow_to_mass_flow(Double, Double) -> Double
 
 pub fn natural_gas_stream(id~ : String, molar_flow~ : Double, temperature~ : Double) -> Stream
 
+pub fn nearest_feasible_operating_point(OperatingEnvelope, OperatingPoint) -> OperatingPoint?
+
+pub fn nearest_operating_point(OperatingEnvelope, OperatingPoint) -> OperatingPoint?
+
 pub fn net_present_value(Array[Double], Double) -> Double
 
 pub fn network_energy_residual(Array[Stream], Array[Stream]) -> Double
@@ -342,11 +554,61 @@ pub fn nitrogen_gas() -> Substance
 
 pub fn normalized_fraction(Double) -> Double
 
+pub fn normalized_operating_score(OperatingPoint, OperatingConstraints) -> Double
+
 pub fn numerical_guard(Double, Double, Double) -> Double
 
 pub fn nusselt_dittus_boelter(Double, Double, Double) -> Double
 
 pub fn nusselt_laminar_constant_wall() -> Double
+
+pub fn operating_constraints_are_valid(OperatingConstraints) -> Bool
+
+pub fn operating_point(Double, Double, Double, Double, Double, Double, Double, OperatingConstraints) -> OperatingPoint
+
+pub fn operating_point_cost_score(OperatingPoint, Double) -> Double
+
+pub fn operating_point_distance(OperatingPoint, OperatingPoint) -> Double
+
+pub fn operating_point_duty_score(OperatingPoint, Double) -> Double
+
+pub fn operating_point_emissions_score(OperatingPoint, Double) -> Double
+
+pub fn operating_point_energy_kwh(OperatingPoint) -> Double
+
+pub fn operating_point_is_feasible(OperatingPoint) -> Bool
+
+pub fn operating_point_is_invalid(OperatingPoint) -> Bool
+
+pub fn operating_point_margin_cost(OperatingPoint, OperatingConstraints) -> Double
+
+pub fn operating_point_margin_duty(OperatingPoint, OperatingConstraints) -> Double
+
+pub fn operating_point_margin_flow(OperatingPoint, OperatingConstraints) -> Double
+
+pub fn operating_point_margin_pressure(OperatingPoint, OperatingConstraints) -> Double
+
+pub fn operating_point_margin_temperature(OperatingPoint, OperatingConstraints) -> Double
+
+pub fn operating_point_minimum_margin(OperatingPoint, OperatingConstraints) -> Double
+
+pub fn operating_point_specific_cost(OperatingPoint) -> Double
+
+pub fn operating_point_specific_duty(OperatingPoint) -> Double
+
+pub fn operating_point_status(Double, Double, Double, Double, Double, OperatingConstraints) -> EnvelopeStatus
+
+pub fn operating_point_to_csv(OperatingPoint) -> String
+
+pub fn operating_point_values_are_finite(OperatingPoint) -> Bool
+
+pub fn operating_point_weighted_distance(OperatingPoint, OperatingPoint, Double, Double, Double) -> Double
+
+pub fn operating_point_with_cost(OperatingPoint, Double, Double, OperatingConstraints) -> OperatingPoint
+
+pub fn operating_point_with_duty(OperatingPoint, Double, Double, Double, OperatingConstraints) -> OperatingPoint
+
+pub fn operating_point_with_process_state(OperatingPoint, Double, Double, Double, OperatingConstraints) -> OperatingPoint
 
 pub fn overall_heat_transfer_coefficient(Double, Double, Double, Double) -> Double
 
@@ -357,6 +619,8 @@ pub fn pa_to_kpa(Double) -> Double
 pub fn parallel_equipment_count(Double, Double) -> Int
 
 pub fn parallel_lmtd(Double, Double, Double, Double) -> Double
+
+pub fn pareto_frontier_count(OperatingEnvelope) -> Int
 
 pub fn payback_years(Double, Double) -> Double
 
@@ -372,6 +636,8 @@ pub fn pipe_heat_transfer_coefficient(Double, Double, FluidProperties) -> Double
 
 pub fn pipe_velocity_m_per_s(Double, Double) -> Double
 
+pub fn point_dominates(OperatingPoint, OperatingPoint, Bool, Bool, Bool) -> Bool
+
 pub fn point_from_humidity_ratio(Double, Double, Double) -> PsychrometricPoint
 
 pub fn positive_or_zero(Double) -> Double
@@ -381,6 +647,8 @@ pub fn prandtl_number(FluidProperties) -> Double
 pub fn pressure_drop_pa(Double, Double, Double, Double, Double) -> Double
 
 pub fn pressure_from_saturation_temperature_c(Double) -> Double
+
+pub fn pressure_loss_duty(Double, Double, Double) -> Double
 
 pub fn process_isothermal(Array[Stream], Double) -> Bool
 
@@ -409,6 +677,16 @@ pub fn quality_grade(QualityResult) -> QualityGrade
 pub fn quality_score(QualityResult) -> Double
 
 pub fn quality_summary(QualityResult) -> String
+
+pub fn ramp_plan(Array[OperatingPoint], Double, Double) -> RampPlan
+
+pub fn ramp_plan_is_monotonic_flow(RampPlan, Bool) -> Bool
+
+pub fn ramp_plan_is_monotonic_temperature(RampPlan, Bool) -> Bool
+
+pub fn ramp_plan_summary(RampPlan) -> String
+
+pub fn ramp_step_time_s(OperatingPoint, OperatingPoint, Double, Double) -> Double
 
 pub fn rankine_cycle(Double, Double, Double, Double, Double) -> RankineCycleResult
 
@@ -490,6 +768,8 @@ pub fn saturation_pressure_kpa(Double) -> Double
 
 pub fn saturation_pressure_pa(Double) -> Double
 
+pub fn scan_operating_envelope(Array[Double], Array[Double], Array[Double], (Double, Double, Double) -> Double, (Double, Double, Double, Double) -> Double, (Double, Double, Double, Double) -> Double, OperatingConstraints) -> OperatingEnvelope
+
 pub fn scenario_matrix_average_quality(ScenarioMatrix) -> Double
 
 pub fn scenario_matrix_csv(ScenarioMatrix) -> String
@@ -525,6 +805,14 @@ pub fn schedule_network(Array[ScheduledUnit]) -> ScheduleResult
 pub fn schedule_resource_hours(ScheduleResult, Int) -> Double
 
 pub fn schmidt_number(Double, Double, Double) -> Double
+
+pub fn select_lowest_cost(OperatingEnvelope) -> EnvelopeSelection?
+
+pub fn select_lowest_duty(OperatingEnvelope) -> EnvelopeSelection?
+
+pub fn select_operating_point(OperatingEnvelope, ObjectiveDirection, (OperatingPoint) -> Double, String) -> EnvelopeSelection?
+
+pub fn select_safest_margin(OperatingEnvelope) -> EnvelopeSelection?
 
 pub fn select_utility(Double, Array[UtilityDesign]) -> UtilityDesign
 
@@ -569,6 +857,8 @@ pub fn species_rate_array_total(Array[SpeciesRate]) -> Double
 pub fn split(Stream, Double) -> (Stream, Stream)
 
 pub fn stable_time_step(Double, Double, Double) -> Double
+
+pub fn standard_operating_constraints() -> OperatingConstraints
 
 pub fn steady_state_balance(Array[Stream], Array[Stream], terms? : BalanceTerms) -> BalanceResult
 
@@ -708,6 +998,8 @@ pub fn weighted_error(Array[Double], Array[Double]) -> Double
 
 pub fn weighted_heat_capacity(Array[Substance], Array[Double], Double) -> Double
 
+pub fn weighted_operating_score(OperatingPoint, Double, Double, Double, Double, Double, Double) -> Double
+
 pub fn wet_bulb_c(Double, Double, Double) -> Double
 
 pub fn within_tolerance(Double, Double, Double) -> Bool
@@ -837,6 +1129,31 @@ pub struct DynamicThermalState {
   duty_w : Double
 } derive(@debug.Debug)
 
+pub struct EnvelopeSelection {
+  point : OperatingPoint
+  objective_value : Double
+  rank : Int
+  explanation : String
+} derive(@debug.Debug)
+
+pub(all) enum EnvelopeStatus {
+  Feasible
+  Infeasible
+  InvalidInput
+} derive(Eq, @debug.Debug)
+
+pub struct EnvelopeSummary {
+  point_count : Int
+  feasible_count : Int
+  infeasible_count : Int
+  minimum_duty_w : Double
+  maximum_duty_w : Double
+  minimum_cost_per_h : Double
+  maximum_cost_per_h : Double
+  average_temperature_k : Double
+  average_flow_kg_per_s : Double
+} derive(@debug.Debug)
+
 pub struct ExchangerCase {
   id : String
   hot_in : Stream
@@ -940,6 +1257,41 @@ pub struct NetworkResult {
   unresolved_connections : Int
 } derive(@debug.Debug)
 
+pub(all) enum ObjectiveDirection {
+  Minimize
+  Maximize
+} derive(Eq, @debug.Debug)
+
+pub struct OperatingConstraints {
+  minimum_temperature_k : Double
+  maximum_temperature_k : Double
+  minimum_flow_kg_per_s : Double
+  maximum_flow_kg_per_s : Double
+  minimum_pressure_kpa : Double
+  maximum_pressure_kpa : Double
+  minimum_duty_w : Double
+  maximum_duty_w : Double
+  maximum_cost_per_h : Double
+} derive(@debug.Debug)
+pub fn OperatingConstraints::new(minimum_temperature_k~ : Double, maximum_temperature_k~ : Double, minimum_flow_kg_per_s~ : Double, maximum_flow_kg_per_s~ : Double, minimum_pressure_kpa~ : Double, maximum_pressure_kpa~ : Double, minimum_duty_w~ : Double, maximum_duty_w~ : Double, maximum_cost_per_h~ : Double) -> Self
+
+pub struct OperatingEnvelope {
+  points : Array[OperatingPoint]
+  constraints : OperatingConstraints
+  summary : EnvelopeSummary
+} derive(@debug.Debug)
+
+pub struct OperatingPoint {
+  temperature_k : Double
+  flow_kg_per_s : Double
+  pressure_kpa : Double
+  duty_w : Double
+  cost_per_h : Double
+  emissions_kg_per_h : Double
+  score : Double
+  status : EnvelopeStatus
+} derive(@debug.Debug)
+
 pub(all) enum Phase {
   Solid
   Liquid
@@ -1014,6 +1366,15 @@ pub struct QualityResult {
   relative_error : Double
   tolerance : Double
   accepted : Bool
+} derive(@debug.Debug)
+
+pub struct RampPlan {
+  points : Array[OperatingPoint]
+  total_time_s : Double
+  total_energy_j : Double
+  maximum_step_temperature_k : Double
+  maximum_step_flow_kg_per_s : Double
+  valid : Bool
 } derive(@debug.Debug)
 
 pub struct RankineCycleResult {
