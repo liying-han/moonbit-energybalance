@@ -1,13 +1,38 @@
 # moonbit-energybalance
 
-`moonbit-energybalance` is a process-engineering library for steady-state
-energy balance calculations in MoonBit. It focuses on enthalpy flow, heat duty,
-phase change, heat exchangers, and utility estimates, complementing material
-balance code instead of replacing it.
+moonbit-energybalance is a MoonBit library for process energy calculations:
+enthalpy flow, heat duty, phase change, heat exchangers, utilities, reaction
+heat, psychrometrics, steam properties, network propagation, and equipment
+sizing helpers.
 
-The library is explicit about basis and units. Temperatures are in kelvin,
-molar heat capacities are in `J/mol/K`, molar enthalpies are in `J/mol`, flow
-rates are in `mol/s`, and duties are in `W`.
+It is designed for process-model prototypes, teaching examples, equipment
+screening, and reusable MoonBit numerical workflows. The calculation basis is
+explicit: temperature is K unless a function name says _c, pressure is kPa
+unless stated otherwise, molar flow is mol/s, molar enthalpy is J/mol, mass
+enthalpy is kJ/kg, and duty is W.
+
+## Core capabilities
+
+- Thermodynamic primitives: constant, linear, and polynomial Cp(T), explicit
+  reference states, formation enthalpy, latent-heat events, and unit helpers.
+- Streams and balances: pure or mixed streams, enthalpy and heat-capacity flow,
+  steady-state balances, validation reports, snapshots, and CSV exports.
+- Equipment: heaters, coolers, mixers, splitters, flash vaporization, LMTD/UA,
+  effectiveness-NTU, pinch targets, heat recovery, and equipment sizing.
+- Property estimates: moist-air humidity ratio, enthalpy, dew point, wet bulb,
+  steam states and interpolation tables, and common water transport properties.
+- Process analysis: reaction stoichiometry and duty, kinetics, recycle
+  convergence, network propagation, scheduling, sensitivity, uncertainty,
+  dynamic lumped heating, and utility cost estimates.
+
+The correlations are deterministic screening models. Their assumptions and
+validity ranges are documented in
+[docs/engineering-notes.md](docs/engineering-notes.md); they are not a
+replacement for certified property packages or detailed design codes.
+
+## Quick start
+
+Construct a stream and evaluate its sensible duty:
 
 ```mbt check
 ///|
@@ -24,36 +49,57 @@ test "README sensible heater example" {
 }
 ```
 
-## Scope
+The runnable demo is in cmd/main. The library has no runtime configuration and
+no network or file-system dependency.
 
-- Heat-capacity models: constant, linear, and polynomial `Cp(T)`.
-- Enthalpy references: explicit reference temperature and optional formation
-  enthalpy.
-- Phase change: latent heat events with temperature and direction.
-- Streams: pure and mixture streams with molar flow and composition.
-- Steady energy equation: inlet/outlet enthalpy flow, heat, shaft work, kinetic
-  and potential terms.
-- Heat exchangers: stream duty, LMTD, UA, and effectiveness-NTU estimates.
-- Utilities: steam, cooling water, chilled water, and generic service estimates.
-- Unit operations: heater, cooler, mixer, splitter, flash vaporization, and heat
-  exchanger adapters.
+## CLI
 
-## Validation
+Run the demo:
 
-Run the same checks used by CI:
+```bash
+moon run cmd/main
+```
+
+Run the deterministic native benchmark:
+
+```bash
+moon run --target native benchmarks
+```
+
+The benchmark prints its workload, iteration count, checksum, average duty,
+and average balance residual. A captured run and the exact environment are in
+[docs/benchmarks/results.md](docs/benchmarks/results.md).
+
+## Architecture
+
+The root package is the public facade. Files are organized by domain:
+types/substance/stream form the thermodynamic core; balance,
+unit_operations, and heat_exchanger provide process operations; psychrometrics,
+steam_*, and fluid_properties provide property estimates; reaction_*,
+network*, sensitivity, uncertainty, dynamics, and operating_costs provide
+analysis layers. cmd/main is the usage demo and benchmarks is an independent
+native executable.
+
+## Tests
+
+The test suite covers normal calculations and boundary behavior including empty
+mixtures, invalid fractions and temperatures, equal-temperature LMTD, latent
+heat crossings, near-singular utility calculations, missing network inputs,
+non-convergent recycle factors, capped kinetics, and zero-duration dynamics.
 
 ```bash
 moon fmt --check
-moon check --deny-warn
-moon info --deny-warn
-moon test --deny-warn
+moon check --target all --deny-warn
+moon test --target all --deny-warn
+moon coverage analyze
 ```
 
-## Source Note
+## CI
 
-This project is written from scratch for this repository. Engineering formulas
-are standard steady-state thermodynamic relations; correlations are documented
-in source comments only where a convention matters. Before implementation, the
-Mooncakes package index was checked for `energy balance`, `enthalpy`, `heat
-exchanger`, `thermodynamics`, and related Chinese terms; no mature MoonBit
-package with the same process energy-balance scope was found.
+GitHub Actions checks formatting, all MoonBit targets, warnings, tests,
+coverage, generated interface drift, and the native benchmark. The workflow
+installs the current stable MoonBit CLI on each runner.
+
+## License
+
+Apache-2.0. See [LICENSE](LICENSE).

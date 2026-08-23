@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.2.0
+
+- Added explicit unit conversions, thermodynamic integration helpers, and
+  physical input contracts.
+- Added moist-air psychrometrics, steam state/table estimates, water transport
+  properties, and air-conditioning reports.
+- Added stoichiometric reaction heat, limiting-reactant conversion, kinetics,
+  recycle fixed-point solving, directed stream-network propagation, and unit
+  scheduling.
+- Added pinch targets, heat-recovery matching, equipment sizing, dynamic
+  lumped thermal response, sensitivity, uncertainty, operating costs, and
+  deterministic case-study exports.
+- Added process audits, CSV-like report exports, edge-case tests, a native
+  benchmark executable, coverage checks, and all-target CI.
+
 ## 0.1.0
 
 - Added explicit thermodynamic basis with kelvin, molar flow, molar enthalpy,

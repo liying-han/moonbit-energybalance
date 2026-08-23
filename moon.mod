@@ -9,9 +9,9 @@
 //   "moonbitlang/x@0.4.6",
 // }
 
-name = "2515050243qyf/moonbit-energybalance"
+name = "liying-han/moonbit-energybalance"
 
-version = "0.1.0"
+version = "0.2.0"
 
 readme = "README.mbt.md"
 
@@ -29,4 +29,4 @@ keywords = [
 
 preferred_target = "wasm-gc"
 
-description = "A MoonBit library for steady-state process energy balance, enthalpy flow, heat duty, phase change, and utility estimates."
+description = "A MoonBit library for process energy balance, thermodynamic property estimates, equipment screening, reaction heat, and process analysis."

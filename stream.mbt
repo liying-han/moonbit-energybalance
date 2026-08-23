@@ -36,6 +36,28 @@ pub fn Stream::with_id(self : Stream, id : String) -> Stream {
 }
 
 ///|
+pub fn Stream::with_flow_factor(self : Stream, factor : Double) -> Stream {
+  let components : Array[ComponentFlow] = []
+  for component in self.components {
+    components.push({
+      substance: component.substance,
+      molar_flow: component.molar_flow * factor.max(0.0),
+    })
+  }
+  { ..self, components, }
+}
+
+///|
+pub fn Stream::with_temperature_offset(self : Stream, delta : Double) -> Stream {
+  { ..self, temperature: self.temperature + delta }
+}
+
+///|
+pub fn Stream::component_count(self : Stream) -> Int {
+  self.components.length()
+}
+
+///|
 pub fn Stream::molar_flow(self : Stream) -> Double {
   let mut total = 0.0
   for component in self.components {

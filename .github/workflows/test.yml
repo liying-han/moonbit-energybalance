@@ -1,66 +1,83 @@
-name: Test
+name: Check and test
 
 on:
   push:
+    branches: [main]
   pull_request:
 
+permissions:
+  contents: read
+
 jobs:
-  test:
-    name: Test (${{ matrix.os }})
+  build-and-test:
+    name: MoonBit (${{ matrix.os }})
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
-
     defaults:
       run:
         shell: bash
-
     steps:
-      - name: Checkout code
+      - name: Checkout
         uses: actions/checkout@v4
         with:
           persist-credentials: false
-
-      - name: Setup MoonBit on Unix
+      - name: Install MoonBit on Unix
         if: runner.os != 'Windows'
         run: |
           curl -fsSL https://cli.moonbitlang.com/install/unix.sh | bash
           echo "$HOME/.moon/bin" >> "$GITHUB_PATH"
-
-      - name: Setup MoonBit on Windows
+      - name: Install MoonBit on Windows
         if: runner.os == 'Windows'
         shell: pwsh
         run: |
           Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
           irm https://cli.moonbitlang.com/install/powershell.ps1 | iex
           echo "$HOME/.moon/bin" | Out-File -FilePath $env:GITHUB_PATH -Append
-
-      - name: Setup MSYS2 gcc on Windows
-        if: runner.os == 'Windows'
-        uses: msys2/setup-msys2@v2
-        with:
-          msystem: UCRT64
-          update: true
-          install: >-
-            mingw-w64-ucrt-x86_64-gcc
-
       - name: Toolchain
         run: |
           moon version --all
           moon update
-
-      - name: Check
-        run: |
-          moon fmt --check
-          moon check --target all --deny-warn
-
-      - name: Test
-        run: |
-          moon test --target all --deny-warn
-
+      - name: Format
+        run: moon fmt --check
+      - name: Check all targets
+        run: moon check --target all --deny-warn
+      - name: Test all targets
+        run: moon test --target all --deny-warn
       - name: Generated interface drift
         run: |
           moon info
           git diff --exit-code
+
+  coverage:
+    name: Coverage and native benchmark
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Install MoonBit
+        run: |
+          curl -fsSL https://cli.moonbitlang.com/install/unix.sh | bash
+          echo "$HOME/.moon/bin" >> "$GITHUB_PATH"
+      - name: Toolchain
+        run: |
+          moon version --all
+          moon update
+      - name: Wasm coverage
+        run: |
+          moon test --target wasm-gc --deny-warn --enable-coverage
+          moon coverage report -f summary
+          moon coverage analyze
+      - name: Native coverage
+        run: |
+          moon test --target native --deny-warn --enable-coverage
+          moon coverage report -f summary
+          moon coverage analyze
+      - name: Benchmark
+        run: moon run --target native benchmarks

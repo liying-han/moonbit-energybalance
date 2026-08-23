@@ -1,72 +1,464 @@
 // Generated using `moon info`, DON'T EDIT IT
-package "2515050243qyf/moonbit-energybalance"
+package "liying-han/moonbit-energybalance"
 
 import {
   "moonbitlang/core/debug",
 }
 
 // Values
+pub fn absolute_error(Double, Double) -> Double
+
+pub fn absolute_or_floor(Double, Double) -> Double
+
+pub fn adiabatic_reaction_temperature(Double, Double, Array[ReactionTerm], Double) -> Double
+
+pub fn aggregate_streams(Array[Stream]) -> StreamAggregate
+
+pub fn agitator_power_w(Double, Double, Double, Double) -> Double
+
+pub fn air_conditioning_report(PsychrometricPoint, PsychrometricPoint, Double) -> AirConditioningReport
+
+pub fn air_heater_duty_w(PsychrometricPoint, Double, Double) -> Double
+
+pub fn air_mixing_enthalpy(Array[PsychrometricPoint], Array[Double]) -> Double
+
 pub fn air_pseudo_component() -> Substance
 
 pub fn air_stream(id~ : String, molar_flow~ : Double, temperature~ : Double) -> Stream
 
+pub fn all_processes_valid(Array[ProcessValidationReport]) -> Bool
+
+pub fn annualized_capital_cost(Double, Double, Int, Double) -> Double
+
+pub fn apply_reaction(Array[SpeciesRate], Array[ReactionTerm], Double) -> Array[SpeciesRate]
+
+pub fn arrhenius_rate_constant(Double, Double, Double) -> Double
+
+pub fn audit_has_code(AuditReport, AuditFindingCode) -> Bool
+
+pub fn audit_maximum_magnitude(AuditReport) -> Double
+
+pub fn audit_process(Array[Stream], Array[Stream], Double) -> AuditReport
+
+pub fn audit_report_count_by_code(Array[AuditReport], AuditFindingCode) -> Int
+
+pub fn audit_reports_accepted(Array[AuditReport]) -> Bool
+
+pub fn audit_summary(AuditReport) -> String
+
+pub fn average_heat_capacity(Substance, Double, Double) -> Double
+
+pub fn balance_result_csv_header() -> String
+
+pub fn balance_result_csv_row(BalanceResult) -> String
+
 pub fn balance_summary(BalanceResult) -> String
+
+pub fn bar_to_kpa(Double) -> Double
+
+pub fn benchmark_average_duty(BenchmarkResult) -> Double
+
+pub fn benchmark_average_residual(BenchmarkResult) -> Double
+
+pub fn benchmark_checksum_is_stable(BenchmarkResult, BenchmarkResult, Double) -> Bool
+
+pub fn benchmark_summary(BenchmarkResult) -> String
+
+pub fn benchmark_workload_name() -> String
 
 pub fn benzene_liquid() -> Substance
 
+pub fn boiler_duty_w(Double, SteamState, SteamState) -> Double
+
 pub fn carbon_dioxide_gas() -> Substance
+
+pub fn case_study_average_quality(Array[CaseStudyResult]) -> Double
+
+pub fn case_study_has_positive_duty(Array[CaseStudyResult]) -> Bool
+
+pub fn case_study_summary(Array[CaseStudyResult]) -> String
+
+pub fn case_study_total_duty(Array[CaseStudyResult]) -> Double
+
+pub fn celsius_delta_to_kelvin_delta(Double) -> Double
+
+pub fn celsius_to_kelvin(Double) -> Double
+
+pub fn chilled_water_utility(Double, Double, Double) -> UtilityDesign
+
+pub fn coil_bypass_factor(Double, Double, Double) -> Double
+
+pub fn coil_contact_factor(Double) -> Double
+
+pub fn cold_stream_duty_kw(ThermalStreamTarget) -> Double
+
+pub fn combine_uncertainties(Double, Double) -> Double
+
+pub fn compressor_power_w(Double, Double, Double, Double, Double) -> Double
+
+pub fn condensate_recovery_heat_kj_per_kg(Double, Double) -> Double
+
+pub fn condenser_duty_w(Double, SteamState, SteamState) -> Double
+
+pub fn conservation_error(Double, Double) -> Double
+
+pub fn conservation_is_closed(Double, Double, Double) -> Bool
+
+pub fn contingency_cost(Double, Double) -> Double
+
+pub fn convection_resistance_m2_k_per_w(Double) -> Double
+
+pub fn convergence_quality(Double, Double) -> QualityGrade
 
 pub fn cooler(Stream, Double) -> HeaterResult
 
 pub fn cooling_water_required(Double, Double, Double) -> Double
 
+pub fn cooling_water_utility(Double, Double, Double) -> UtilityDesign
+
+pub fn cost_saving_percent(Double, Double) -> Double
+
+pub fn cost_summary(CostEstimate) -> String
+
+pub fn critical_entries(ScheduleResult) -> Array[ScheduledEntry]
+
+pub fn cstr_conversion(KineticModel, Double, Double) -> Double
+
+pub fn csv_escape(String) -> String
+
+pub fn csv_join(Array[String]) -> String
+
+pub fn cubic_meters_per_second_to_liters_per_minute(Double) -> Double
+
+pub fn cycle_capacity_factor(RankineCycleResult, Double, Double) -> Double
+
+pub fn cycle_heat_rate_j_per_j(RankineCycleResult) -> Double
+
+pub fn dehumidification_point(PsychrometricPoint, Double) -> PsychrometricPoint
+
+pub fn dew_point_c(Double, Double, Double) -> Double
+
+pub fn discount_factor(Double, Int) -> Double
+
+pub fn duty_curvature(Stream, Double, Double) -> Double
+
+pub fn duty_direction_is_consistent(Stream, Stream, Bool) -> Bool
+
 pub fn duty_report(unit_id~ : String, Stream, Stream) -> DutyReport
 
+pub fn duty_report_csv_row(DutyReport) -> String
+
+pub fn duty_sign_is_robust(UncertaintyEnvelope) -> Bool
+
+pub fn duty_uncertainty_envelope(Stream, Double, Double, Double) -> UncertaintyEnvelope
+
+pub fn dynamic_average_temperature(Array[DynamicThermalState]) -> Double
+
+pub fn dynamic_energy(DynamicThermalState, DynamicThermalState) -> Double
+
+pub fn dynamic_is_monotonic(Array[DynamicThermalState], Bool) -> Bool
+
+pub fn dynamic_peak_duty(Array[DynamicThermalState]) -> Double
+
+pub fn dynamic_step(DynamicThermalState, Double, Double, Double, Double) -> DynamicThermalState
+
+pub fn dynamic_summary(Array[DynamicThermalState]) -> String
+
+pub fn dynamic_temperature_error(DynamicThermalState, Double) -> Double
+
 pub fn effectiveness_ntu(counter_current~ : Bool, Double, Double, Double) -> Double
+
+pub fn emissions_saving_kg(CostEstimate, CostEstimate) -> Double
+
+pub fn energy_balance_quality(Double, Double, Double) -> QualityResult
+
+pub fn enthalpy_change_with_formation(Substance, Double, Double) -> Double
 
 pub fn enthalpy_flow_sum(Array[Stream]) -> Double
 
 pub fn ethanol_liquid() -> Substance
 
+pub fn evaluate_scenario_matrix(Double, Array[Double], Array[Double]) -> ScenarioMatrix
+
+pub fn evaluate_scenario_point(Double, Double, Double) -> ScenarioPoint
+
+pub fn evaporative_cooling_duty(Double, Double, Double, Double, Double) -> Double
+
+pub fn exchanger_area_m2(Double, Double, Double, Double) -> Double
+
+pub fn exchanger_csv_row(HeatExchangerResult) -> String
+
+pub fn exchanger_overdesign_area_m2(Double, Double) -> Double
+
 pub fn exchanger_summary(HeatExchangerResult) -> String
 
 pub fn exchanger_ua(Double, Double) -> Double
 
+pub fn export_line_count(String) -> Int
+
+pub fn feedwater_pump_work_w(Double, Double, Double, Double) -> Double
+
+pub fn finite_difference(Double, Double, Double) -> Double
+
+pub fn first_order_response(Double, Double, Double, Double) -> Double
+
 pub fn flash_vaporize(Stream, Substance, Substance, Double, Double) -> FlashResult
+
+pub fn flow_sensitivity(Stream, Double) -> Double
+
+pub fn fraction_array_is_valid(Array[Double], Double) -> Bool
+
+pub fn friction_factor(Double, Double) -> Double
 
 pub fn generic_substance(id~ : String, name~ : String, cp~ : Double) -> Substance
 
 pub fn has_issues(Array[ValidationIssue]) -> Bool
 
+pub fn heat_capacity_flow_is_valid(Double) -> Bool
+
 pub fn heat_duty(Stream, Stream) -> Double
 
 pub fn heat_exchanger(Stream, Double, Stream, Double, arrangement? : FlowArrangement) -> HeatExchangerResult
 
+pub fn heat_exchanger_temperatures_valid(Double, Double, Double, Double, Double) -> Bool
+
+pub fn heat_loss_to_ambient(Double, Double, Double, Double) -> Double
+
+pub fn heat_recovery_fraction(Double, Double) -> Double
+
 pub fn heater(Stream, Double) -> HeaterResult
 
+pub fn heater_duty_sensitivity(Stream, Double, Double) -> SensitivityPoint
+
+pub fn heater_sensitivity_table(Stream, Array[Double], Double) -> Array[SensitivityPoint]
+
+pub fn heating_coil_point(PsychrometricPoint, Double) -> PsychrometricPoint
+
+pub fn hot_stream_duty_kw(ThermalStreamTarget) -> Double
+
+pub fn humidification_point(PsychrometricPoint, Double) -> PsychrometricPoint
+
+pub fn humidification_water_duty(Double, Double, Double) -> Double
+
+pub fn humidity_ratio_from_relative_humidity(Double, Double, Double) -> Double
+
+pub fn humidity_ratio_from_vapor_pressure(Double, Double) -> Double
+
 pub fn ice_solid() -> Substance
+
+pub fn inflation_adjusted_cost(Double, Double, Int) -> Double
+
+pub fn integrate_duty_profile(Array[Double], Array[Double]) -> Double
+
+pub fn integrate_temperature_profile(Substance, Array[Double]) -> Double
+
+pub fn interpolate_table(Double, Double, Double, Double, Double) -> SteamTableResult
 
 pub fn is_balanced(BalanceResult, tolerance? : Double) -> Bool
 
 pub fn issue_count_for_streams(Array[Stream]) -> Int
 
+pub fn joule_per_kg_to_kilojoule_per_kg(Double) -> Double
+
+pub fn kelvin_delta_to_celsius_delta(Double) -> Double
+
+pub fn kelvin_range(Double, Double) -> Bool
+
+pub fn kelvin_to_celsius(Double) -> Double
+
+pub fn kilojoule_per_kg_to_joule_per_kg(Double) -> Double
+
+pub fn kilowatt_to_watt(Double) -> Double
+
+pub fn kinetic_half_life(KineticModel, Double) -> Double
+
+pub fn kinetic_profile(KineticModel, Double, Double, Double, Int) -> Array[KineticPoint]
+
+pub fn kinetic_rate_constant(KineticModel, Double) -> Double
+
+pub fn kpa_to_bar(Double) -> Double
+
+pub fn kpa_to_pa(Double) -> Double
+
+pub fn least_cost_heating_service(Double, Array[UtilityDesign], Double, Double) -> CostEstimate
+
+pub fn levelized_cost(Double, Double, Double, Int) -> Double
+
+pub fn limiting_reaction_extent(Array[SpeciesRate], Array[ReactionTerm]) -> Double
+
+pub fn liters_per_minute_to_cubic_meters_per_second(Double) -> Double
+
 pub fn lmtd(Double, Double, Double, Double, arrangement? : FlowArrangement) -> Double
+
+pub fn maintenance_cost_per_year(Double, Double) -> Double
+
+pub fn mass_flow_to_molar_flow(Double, Double) -> Double
+
+pub fn mass_transfer_sherwood(Double, Double) -> Double
+
+pub fn match_heat_streams(ThermalStreamTarget, ThermalStreamTarget, Double) -> HeatRecoveryMatch
+
+pub fn maximum_relative_error(Array[Double], Array[Double]) -> Double
 
 pub fn methane_gas() -> Substance
 
+pub fn mix_air_points(PsychrometricPoint, Double, PsychrometricPoint, Double) -> PsychrometricPoint
+
 pub fn mixer(id~ : String, Array[Stream], Double) -> Stream
+
+pub fn moist_air_cp_kj_per_kg_k(Double) -> Double
+
+pub fn moist_air_density(Double, Double, Double) -> Double
+
+pub fn moist_air_enthalpy_from_rh(Double, Double, Double) -> Double
+
+pub fn moist_air_enthalpy_kj_per_kg_dry(Double, Double) -> Double
+
+pub fn moist_air_specific_volume(Double, Double, Double) -> Double
+
+pub fn moisture_mass_flow(Double, Double) -> Double
+
+pub fn moisture_removal_rate(Double, Double, Double) -> Double
+
+pub fn molar_flow_to_mass_flow(Double, Double) -> Double
 
 pub fn natural_gas_stream(id~ : String, molar_flow~ : Double, temperature~ : Double) -> Stream
 
+pub fn net_present_value(Array[Double], Double) -> Double
+
+pub fn network_energy_residual(Array[Stream], Array[Stream]) -> Double
+
+pub fn network_flow_residual(NetworkResult, Double) -> Double
+
+pub fn network_fraction_sum_is_valid(Array[Double], Double) -> Bool
+
+pub fn network_stream_count(NetworkResult) -> Int
+
+pub fn network_terminal_flow(NetworkResult) -> Double
+
+pub fn network_terminal_ids(Array[NetworkConnection]) -> Array[String]
+
 pub fn nitrogen_gas() -> Substance
+
+pub fn normalized_fraction(Double) -> Double
+
+pub fn numerical_guard(Double, Double, Double) -> Double
+
+pub fn nusselt_dittus_boelter(Double, Double, Double) -> Double
+
+pub fn nusselt_laminar_constant_wall() -> Double
+
+pub fn overall_heat_transfer_coefficient(Double, Double, Double, Double) -> Double
 
 pub fn oxygen_gas() -> Substance
 
+pub fn pa_to_kpa(Double) -> Double
+
+pub fn parallel_equipment_count(Double, Double) -> Int
+
 pub fn parallel_lmtd(Double, Double, Double, Double) -> Double
+
+pub fn payback_years(Double, Double) -> Double
+
+pub fn pfr_conversion(KineticModel, Double, Double) -> Double
+
+pub fn phase_change_heat(Substance, Double, Double, Double) -> Double
+
+pub fn pinch_targets(Array[ThermalStreamTarget], Array[ThermalStreamTarget], Double) -> PinchTargets
+
+pub fn pipe_cross_section_m2(Double) -> Double
+
+pub fn pipe_heat_transfer_coefficient(Double, Double, FluidProperties) -> Double
+
+pub fn pipe_velocity_m_per_s(Double, Double) -> Double
+
+pub fn point_from_humidity_ratio(Double, Double, Double) -> PsychrometricPoint
+
+pub fn positive_or_zero(Double) -> Double
+
+pub fn prandtl_number(FluidProperties) -> Double
+
+pub fn pressure_drop_pa(Double, Double, Double, Double, Double) -> Double
+
+pub fn pressure_from_saturation_temperature_c(Double) -> Double
+
+pub fn process_isothermal(Array[Stream], Double) -> Bool
+
+pub fn process_temperature_range(Array[Stream]) -> (Double, Double)
+
+pub fn process_total_heat_capacity(Array[Stream]) -> Double
+
+pub fn process_total_mass_flow(Array[Stream], Double) -> Double
 
 pub fn process_water_stream(id~ : String, molar_flow~ : Double, temperature~ : Double) -> Stream
 
+pub fn propagate_network(Stream, Array[NetworkConnection], Int) -> NetworkResult
+
+pub fn propagated_product_uncertainty(Double, Double, Double, Double) -> UncertaintyEnvelope
+
+pub fn propagated_sum_uncertainty(Double, Double, Double, Double) -> UncertaintyEnvelope
+
+pub fn psychrometric_point(Double, Double, Double) -> PsychrometricPoint
+
+pub fn pump_head_m(Double, Double) -> Double
+
+pub fn pump_power_w(Double, Double, Double) -> Double
+
+pub fn quality_grade(QualityResult) -> QualityGrade
+
+pub fn quality_score(QualityResult) -> Double
+
+pub fn quality_summary(QualityResult) -> String
+
+pub fn rankine_cycle(Double, Double, Double, Double, Double) -> RankineCycleResult
+
+pub fn reaction_balance(Array[SpeciesRate], Array[ReactionTerm], Double) -> ReactionBalance
+
+pub fn reaction_conversion(Double, Double, Double) -> Double
+
+pub fn reaction_conversion_for_species(Array[SpeciesRate], Array[SpeciesRate], String) -> Double
+
+pub fn reaction_duty(Array[ReactionTerm], Double) -> Double
+
+pub fn reaction_enthalpy(Array[ReactionTerm]) -> Double
+
+pub fn reaction_extent_for_conversion(Double, Double, Double) -> Double
+
+pub fn reaction_heat_per_mass(Array[ReactionTerm], Double, Double) -> Double
+
+pub fn reaction_is_mass_balanced(Array[ReactionTerm], Double) -> Bool
+
+pub fn reaction_mass_flow(Array[SpeciesRate]) -> Double
+
+pub fn reaction_outlet_temperature(Double, Double, Double) -> Double
+
+pub fn reaction_rate(KineticModel, Double, Double) -> Double
+
+pub fn reaction_selectivity(Array[SpeciesRate], String, String) -> Double
+
+pub fn reaction_yield(Array[SpeciesRate], Array[SpeciesRate], String, String, Double, Double) -> Double
+
+pub fn relative_error(Double, Double) -> Double
+
+pub fn relative_humidity_from_ratio(Double, Double, Double) -> Double
+
+pub fn relative_uncertainty_envelope(Double, Double) -> UncertaintyEnvelope
+
+pub fn report_json_like(DutyReport) -> String
+
 pub fn required_heat(Array[Stream], Array[Stream], shaft_work? : Double, kinetic? : Double, potential? : Double) -> Double
+
+pub fn residence_time_for_conversion(KineticModel, Double, Double) -> Double
+
+pub fn response_time_to_fraction(Double, Double) -> Double
+
+pub fn reynolds_number(Double, Double, Double, Double) -> Double
+
+pub fn reynolds_number_for_fluid(FluidProperties, Double, Double) -> Double
+
+pub fn run_air_drying_case(Double, Double, Double, Double, Double) -> CaseStudyResult
+
+pub fn run_benchmark_workload(Int) -> BenchmarkResult
 
 pub fn run_cooling_case(CoolingCase) -> ScenarioResult
 
@@ -74,33 +466,289 @@ pub fn run_exchanger_case(ExchangerCase) -> ScenarioResult
 
 pub fn run_heating_case(HeatingCase) -> ScenarioResult
 
+pub fn run_natural_gas_case(Double, Double, Double) -> CaseStudyResult
+
+pub fn run_water_preheat_case(Double, Double, Double) -> CaseStudyResult
+
+pub fn safe_required_heat(Array[Stream], Array[Stream], Double, Double, Double) -> Double?
+
+pub fn safety_factor_load(Double, Double) -> Double
+
+pub fn saturated_liquid_enthalpy_kj_per_kg(Double) -> Double
+
+pub fn saturated_liquid_entropy_kj_per_kg_k(Double) -> Double
+
+pub fn saturated_liquid_specific_volume_m3_per_kg(Double) -> Double
+
+pub fn saturated_vapor_enthalpy_kj_per_kg(Double) -> Double
+
+pub fn saturated_vapor_specific_volume_m3_per_kg(Double, Double) -> Double
+
+pub fn saturated_water_density_kg_per_m3(Double) -> Double
+
+pub fn saturation_pressure_kpa(Double) -> Double
+
+pub fn saturation_pressure_pa(Double) -> Double
+
+pub fn scenario_matrix_average_quality(ScenarioMatrix) -> Double
+
+pub fn scenario_matrix_csv(ScenarioMatrix) -> String
+
+pub fn scenario_matrix_csv_header() -> String
+
+pub fn scenario_matrix_csv_row(ScenarioPoint) -> String
+
+pub fn scenario_matrix_find_max_duty(ScenarioMatrix) -> ScenarioPoint?
+
+pub fn scenario_matrix_find_min_area(ScenarioMatrix) -> ScenarioPoint?
+
+pub fn scenario_matrix_is_monotonic_in_temperature(ScenarioMatrix) -> Bool
+
+pub fn scenario_matrix_point_count(ScenarioMatrix) -> Int
+
+pub fn scenario_result_csv_header() -> String
+
+pub fn scenario_result_csv_row(ScenarioResult) -> String
+
+pub fn scenario_results_csv(Array[ScenarioResult]) -> String
+
+pub fn schedule_contains_cycle(Array[ScheduledUnit]) -> Bool
+
+pub fn schedule_duration(ScheduleResult, String) -> Double
+
+pub fn schedule_entry_count(ScheduleResult) -> Int
+
+pub fn schedule_is_valid(ScheduleResult) -> Bool
+
+pub fn schedule_network(Array[ScheduledUnit]) -> ScheduleResult
+
+pub fn schedule_resource_hours(ScheduleResult, Int) -> Double
+
+pub fn schmidt_number(Double, Double, Double) -> Double
+
+pub fn select_utility(Double, Array[UtilityDesign]) -> UtilityDesign
+
+pub fn sensible_heat(Substance, Double, Double, Double) -> Double
+
+pub fn sensible_heat_ratio(Double, Double) -> Double
+
+pub fn sensitivity_at_temperature(Substance, Double, Double) -> Double
+
+pub fn service_cost_estimate(UtilityDesign, Double, Double, Double) -> CostEstimate
+
 pub fn service_hint(Double) -> String
+
+pub fn simulate_lumped_heating(Double, Double, Double, Double, Double, Int) -> Array[DynamicThermalState]
+
+pub fn size_heater(Double, Double, Double, Double) -> HeaterSizing
+
+pub fn size_pump(Double, Double, Double, Double) -> PumpSizing
+
+pub fn size_tank(Double, Double, Double) -> TankSizing
+
+pub fn snapshot_csv_header() -> String
+
+pub fn snapshot_csv_row(StreamSnapshot) -> String
+
+pub fn snapshot_delta(StreamSnapshot, StreamSnapshot) -> StreamSnapshot
+
+pub fn snapshot_relative_change(Double, Double) -> Double
+
+pub fn snapshot_stream(Stream) -> StreamSnapshot
+
+pub fn snapshot_streams(Array[Stream]) -> Array[StreamSnapshot]
+
+pub fn snapshots_csv(Array[StreamSnapshot]) -> String
+
+pub fn solve_recycle_temperature(Double, Double, Int, Double) -> ConvergenceResult
+
+pub fn species_rate(Array[SpeciesRate], String) -> Double
+
+pub fn species_rate_array_total(Array[SpeciesRate]) -> Double
 
 pub fn split(Stream, Double) -> (Stream, Stream)
 
+pub fn stable_time_step(Double, Double, Double) -> Double
+
 pub fn steady_state_balance(Array[Stream], Array[Stream], terms? : BalanceTerms) -> BalanceResult
+
+pub fn steam_density_kg_per_m3(Double, Double) -> Double
+
+pub fn steam_latent_heat_kj_per_kg(Double) -> Double
+
+pub fn steam_mass_flow_for_duty(Double, Double, Double, Double) -> Double
 
 pub fn steam_required(Double, Double) -> Double
 
+pub fn steam_saturation_temperature_c(Double) -> Double
+
+pub fn steam_state(Double, Double) -> SteamState
+
+pub fn steam_state_from_quality(Double, Double) -> SteamState
+
+pub fn steam_utility(Double, Double, Double) -> UtilityDesign
+
+pub fn steam_volume_flow_m3_per_s(Double, Double, Double) -> Double
+
+pub fn stream_csv_header() -> String
+
+pub fn stream_csv_row(Stream) -> String
+
+pub fn stream_is_physically_valid(Stream) -> Bool
+
+pub fn stream_rate(Array[Stream], String) -> Double
+
+pub fn streams_csv(Array[Stream]) -> String
+
+pub fn substance_is_physically_valid(Substance, Double) -> Bool
+
+pub fn sweep_heater_targets(Stream, Double, Double, Double) -> SensitivitySweep
+
+pub fn table_quality_from_enthalpy(Double, Double) -> SteamTableResult
+
+pub fn table_state_from_pressure_quality(Double, Double) -> SteamState
+
+pub fn tabulated_saturated_liquid_enthalpy(Double) -> SteamTableResult
+
+pub fn tabulated_saturated_vapor_enthalpy(Double) -> SteamTableResult
+
+pub fn tabulated_saturation_temperature_c(Double) -> SteamTableResult
+
+pub fn target_temperature_for_duty(Stream, Double, Double, Double) -> Double
+
+pub fn temperature_from_sensible_heat(Substance, Double, Double, Double) -> Double
+
+pub fn thermal_diffusivity_m2_per_s(FluidProperties) -> Double
+
+pub fn thermal_oil_utility(Double, Double, Double, Double) -> UtilityDesign
+
+pub fn thermal_time_constant_s(Double, Double) -> Double
+
+pub fn tolerance_for_scale(Double, Double, Double) -> Double
+
 pub fn toluene_liquid() -> Substance
+
+pub fn total_annual_cost(Double, Double, Double) -> Double
+
+pub fn total_molar_heat(Substance, Double, Double) -> Double
 
 pub fn total_scenario_duty(Array[ScenarioResult]) -> Double
 
+pub fn turbine_expand(SteamState, Double, Double) -> TurbineExpansionResult
+
+pub fn uncertainty_contains(Double, UncertaintyEnvelope) -> Bool
+
+pub fn uncertainty_margin(Double, Double, Double) -> Double
+
+pub fn utility_cost_index(UtilityDesign) -> Double
+
+pub fn utility_csv_row(UtilityEstimate) -> String
+
+pub fn utility_emissions_kg_per_h(UtilityDesign, Double) -> Double
+
+pub fn utility_energy_kwh_per_year(UtilityDesign, Double) -> Double
+
 pub fn utility_estimate(name~ : String, duty~ : Double, cp~ : Double, inlet_temperature~ : Double, outlet_temperature~ : Double) -> UtilityEstimate
+
+pub fn utility_operating_cost(UtilityDesign, Double, Double) -> Double
 
 pub fn utility_summary(UtilityEstimate) -> String
 
+pub fn utility_target_after_recovery(Double, Double) -> Double
+
+pub fn valid_absolute_temperature(Double) -> Bool
+
+pub fn valid_flow_pair(Double, Double) -> Bool
+
+pub fn valid_pressure_pair(Double, Double) -> Bool
+
+pub fn valid_temperature_pair(Double, Double) -> Bool
+
 pub fn validate_fraction(Double) -> Array[ValidationIssue]
+
+pub fn validate_monotonic(Array[Double], Bool) -> Bool
+
+pub fn validate_positive_values(Array[Double]) -> Int
+
+pub fn validate_process(Array[Stream]) -> ProcessValidationReport
 
 pub fn validate_stream(Stream) -> Array[ValidationIssue]
 
+pub fn validate_temperature_range(Array[Double], Double, Double) -> Int
+
+pub fn validation_issue_count(Array[ProcessValidationReport]) -> Int
+
+pub fn validation_summary(ProcessValidationReport) -> String
+
+pub fn vapor_pressure_from_humidity_ratio(Double, Double) -> Double
+
+pub fn vessel_volume_m3(Double, Double) -> Double
+
+pub fn vessel_wall_area_m2(Double, Double) -> Double
+
+pub fn water_density_kg_per_m3(Double) -> Double
+
+pub fn water_heat_capacity_j_per_kg_k(Double) -> Double
+
 pub fn water_liquid() -> Substance
 
+pub fn water_properties(Double) -> FluidProperties
+
+pub fn water_thermal_conductivity_w_per_m_k(Double) -> Double
+
 pub fn water_vapor() -> Substance
+
+pub fn water_viscosity_pa_s(Double) -> Double
+
+pub fn watt_to_kilowatt(Double) -> Double
+
+pub fn weighted_enthalpy(Array[Substance], Array[Double], Double) -> Double
+
+pub fn weighted_error(Array[Double], Array[Double]) -> Double
+
+pub fn weighted_heat_capacity(Array[Substance], Array[Double], Double) -> Double
+
+pub fn wet_bulb_c(Double, Double, Double) -> Double
+
+pub fn within_tolerance(Double, Double, Double) -> Bool
+
+pub fn worst_case_interval(Array[Double], Double) -> UncertaintyEnvelope
 
 // Errors
 
 // Types and methods
+pub struct AirConditioningReport {
+  inlet : PsychrometricPoint
+  outlet : PsychrometricPoint
+  dry_air_mass_flow_kg_per_s : Double
+  cooling_duty_w : Double
+  sensible_duty_w : Double
+  latent_duty_w : Double
+  condensate_kg_per_s : Double
+  sensible_heat_ratio : Double
+} derive(@debug.Debug)
+
+pub struct AuditFinding {
+  code : AuditFindingCode
+  message : String
+  magnitude : Double
+} derive(@debug.Debug)
+
+pub(all) enum AuditFindingCode {
+  BalanceResidual
+  InvalidStream
+  EmptyInlet
+  EmptyOutlet
+  NegativeDuty
+} derive(Eq, @debug.Debug)
+
+pub struct AuditReport {
+  accepted : Bool
+  finding_count : Int
+  residual : Double
+  findings : Array[AuditFinding]
+} derive(@debug.Debug)
+
 pub struct BalanceResult {
   inlet_enthalpy_flow : Double
   outlet_enthalpy_flow : Double
@@ -117,11 +765,35 @@ pub struct BalanceTerms {
 } derive(@debug.Debug)
 pub fn BalanceTerms::BalanceTerms(heat? : Double, shaft_work? : Double, kinetic? : Double, potential? : Double) -> Self
 
+pub struct BenchmarkResult {
+  workload : String
+  iterations : Int
+  checksum : Double
+  total_duty_w : Double
+  total_residual_w : Double
+} derive(@debug.Debug)
+
+pub struct CaseStudyResult {
+  id : String
+  duty_w : Double
+  mass_flow_kg_per_s : Double
+  equipment_area_m2 : Double
+  quality_score : Double
+  summary : String
+} derive(@debug.Debug)
+
 pub struct ComponentFlow {
   substance : Substance
   molar_flow : Double
 } derive(@debug.Debug)
 pub fn ComponentFlow::ComponentFlow(substance~ : Substance, molar_flow~ : Double) -> Self
+
+pub struct ConvergenceResult {
+  value : Double
+  iterations : Int
+  residual : Double
+  converged : Bool
+} derive(@debug.Debug)
 
 pub struct CoolingCase {
   id : String
@@ -129,6 +801,14 @@ pub struct CoolingCase {
   target_temperature : Double
 } derive(@debug.Debug)
 pub fn CoolingCase::CoolingCase(id~ : String, feed~ : Stream, target_temperature~ : Double) -> Self
+
+pub struct CostEstimate {
+  name : String
+  annual_cost : Double
+  annual_energy_kwh : Double
+  annual_emissions_kg : Double
+  utility_flow_kg_per_s : Double
+} derive(@debug.Debug)
 
 pub(all) enum CpModel {
   Constant(Double)
@@ -149,6 +829,13 @@ pub struct DutyReport {
   service_hint : String
 } derive(@debug.Debug)
 pub fn DutyReport::summary(Self) -> String
+
+pub struct DynamicThermalState {
+  time_s : Double
+  temperature_k : Double
+  energy_j : Double
+  duty_w : Double
+} derive(@debug.Debug)
 
 pub struct ExchangerCase {
   id : String
@@ -172,6 +859,15 @@ pub(all) enum FlowArrangement {
   Parallel
 } derive(Eq, @debug.Debug)
 
+pub struct FluidProperties {
+  temperature_c : Double
+  density_kg_per_m3 : Double
+  viscosity_pa_s : Double
+  heat_capacity_j_per_kg_k : Double
+  thermal_conductivity_w_per_m_k : Double
+  vapor_pressure_kpa : Double
+} derive(@debug.Debug)
+
 pub struct HeatExchangerResult {
   hot_out : Stream
   cold_out : Stream
@@ -181,9 +877,26 @@ pub struct HeatExchangerResult {
   heat_recovery_fraction : Double
 } derive(@debug.Debug)
 
+pub struct HeatRecoveryMatch {
+  hot_id : String
+  cold_id : String
+  duty_kw : Double
+  hot_outlet_c : Double
+  cold_outlet_c : Double
+  feasible : Bool
+} derive(@debug.Debug)
+
 pub struct HeaterResult {
   outlet : Stream
   duty : Double
+} derive(@debug.Debug)
+
+pub struct HeaterSizing {
+  process_duty_w : Double
+  design_duty_w : Double
+  area_m2 : Double
+  overall_u_w_per_m2_k : Double
+  approach_k : Double
 } derive(@debug.Debug)
 
 pub struct HeatingCase {
@@ -193,10 +906,38 @@ pub struct HeatingCase {
 } derive(@debug.Debug)
 pub fn HeatingCase::HeatingCase(id~ : String, feed~ : Stream, target_temperature~ : Double) -> Self
 
+pub(all) enum KineticModel {
+  FirstOrder(rate_constant~ : Double)
+  SecondOrder(rate_constant~ : Double)
+  Arrhenius(pre_exponential~ : Double, activation_energy_j_per_mol~ : Double)
+} derive(@debug.Debug)
+
+pub struct KineticPoint {
+  time_s : Double
+  concentration : Double
+  conversion : Double
+  rate_mol_per_m3_s : Double
+} derive(@debug.Debug)
+
 pub struct LatentHeat {
   transition_temperature : Double
   heat : Double
   direction : PhaseChangeDirection
+} derive(@debug.Debug)
+
+pub struct NetworkConnection {
+  source_id : String
+  target_id : String
+  fraction : Double
+} derive(@debug.Debug)
+pub fn NetworkConnection::NetworkConnection(source_id~ : String, target_id~ : String, fraction~ : Double) -> Self
+
+pub struct NetworkResult {
+  streams : Array[Stream]
+  terminal_ids : Array[String]
+  iterations : Int
+  converged : Bool
+  unresolved_connections : Int
 } derive(@debug.Debug)
 
 pub(all) enum Phase {
@@ -213,10 +954,186 @@ pub(all) enum PhaseChangeDirection {
   Condense
 } derive(Eq, @debug.Debug)
 
+pub struct PinchTargets {
+  hot_target_c : Double
+  cold_target_c : Double
+  minimum_hot_utility_kw : Double
+  minimum_cold_utility_kw : Double
+  total_hot_duty_kw : Double
+  total_cold_duty_kw : Double
+} derive(@debug.Debug)
+
+pub struct ProcessIssue {
+  code : ProcessIssueCode
+  stream_id : String
+  message : String
+} derive(@debug.Debug)
+
+pub(all) enum ProcessIssueCode {
+  EmptyProcess
+  DuplicateStreamId
+  NegativeFlowValue
+  InvalidTemperatureValue
+  EmptyComponentList
+  InvalidComposition
+} derive(Eq, @debug.Debug)
+
+pub struct ProcessValidationReport {
+  valid : Bool
+  issue_count : Int
+  issues : Array[ProcessIssue]
+} derive(@debug.Debug)
+pub fn ProcessValidationReport::has_code(Self, ProcessIssueCode) -> Bool
+
+pub struct PsychrometricPoint {
+  dry_bulb_c : Double
+  relative_humidity : Double
+  humidity_ratio : Double
+  enthalpy_kj_per_kg_dry : Double
+  dew_point_c : Double
+} derive(@debug.Debug)
+
+pub struct PumpSizing {
+  hydraulic_power_w : Double
+  shaft_power_w : Double
+  pressure_rise_pa : Double
+  flow_m3_per_s : Double
+} derive(@debug.Debug)
+
+pub(all) enum QualityGrade {
+  Excellent
+  Acceptable
+  Warning
+  Rejected
+} derive(Eq, @debug.Debug)
+
+pub struct QualityResult {
+  inlet : Double
+  outlet : Double
+  absolute_error : Double
+  relative_error : Double
+  tolerance : Double
+  accepted : Bool
+} derive(@debug.Debug)
+
+pub struct RankineCycleResult {
+  boiler_duty_w : Double
+  turbine_work_w : Double
+  pump_work_w : Double
+  condenser_duty_w : Double
+  net_work_w : Double
+  thermal_efficiency : Double
+  steam_quality_at_turbine_exit : Double
+} derive(@debug.Debug)
+
+pub struct ReactionBalance {
+  inlet : Array[SpeciesRate]
+  outlet : Array[SpeciesRate]
+  extent_mol_per_s : Double
+  duty_w : Double
+  mass_residual_kg_per_s : Double
+} derive(@debug.Debug)
+
+pub struct ReactionSpecies {
+  id : String
+  molar_mass : Double
+  formation_enthalpy_kj_per_mol : Double
+} derive(@debug.Debug)
+pub fn ReactionSpecies::ReactionSpecies(id~ : String, molar_mass~ : Double, formation_enthalpy_kj_per_mol~ : Double) -> Self
+
+pub struct ReactionTerm {
+  species : ReactionSpecies
+  coefficient : Double
+} derive(@debug.Debug)
+pub fn ReactionTerm::ReactionTerm(species~ : ReactionSpecies, coefficient~ : Double) -> Self
+
+pub struct ScenarioMatrix {
+  points : Array[ScenarioPoint]
+  minimum_duty : Double
+  maximum_duty : Double
+  minimum_area : Double
+  maximum_area : Double
+} derive(@debug.Debug)
+
+pub struct ScenarioPoint {
+  flow : Double
+  target_temperature : Double
+  duty : Double
+  area_m2 : Double
+  quality_score : Double
+} derive(@debug.Debug)
+
 pub struct ScenarioResult {
   id : String
   duty : Double
   description : String
+} derive(@debug.Debug)
+
+pub struct ScheduleResult {
+  entries : Array[ScheduledEntry]
+  makespan_h : Double
+  critical_unit_id : String
+  feasible : Bool
+} derive(@debug.Debug)
+
+pub struct ScheduledEntry {
+  id : String
+  start_h : Double
+  finish_h : Double
+  slack_h : Double
+} derive(@debug.Debug)
+
+pub struct ScheduledUnit {
+  id : String
+  duration_h : Double
+  predecessors : Array[String]
+} derive(@debug.Debug)
+pub fn ScheduledUnit::ScheduledUnit(id~ : String, duration_h~ : Double, predecessors~ : Array[String]) -> Self
+
+pub struct SensitivityPoint {
+  target_temperature : Double
+  duty : Double
+  derivative : Double
+  relative_derivative : Double
+} derive(@debug.Debug)
+
+pub struct SensitivitySweep {
+  points : Array[SensitivityPoint]
+  minimum_duty : Double
+  maximum_duty : Double
+} derive(@debug.Debug)
+
+pub struct SpeciesRate {
+  species : ReactionSpecies
+  molar_flow : Double
+} derive(@debug.Debug)
+pub fn SpeciesRate::SpeciesRate(species~ : ReactionSpecies, molar_flow~ : Double) -> Self
+
+pub(all) enum SteamRegion {
+  CompressedLiquid
+  SaturatedLiquid
+  TwoPhase
+  SaturatedVapor
+  SuperheatedVapor
+  UnknownRegion
+} derive(Eq, @debug.Debug)
+
+pub struct SteamState {
+  temperature_c : Double
+  pressure_kpa : Double
+  enthalpy_kj_per_kg : Double
+  entropy_kj_per_kg_k : Double
+  specific_volume_m3_per_kg : Double
+  quality : Double
+  region : SteamRegion
+} derive(@debug.Debug)
+
+pub struct SteamTableResult {
+  value : Double
+  lower_bound : Double
+  upper_bound : Double
+  clamped : Bool
+  valid : Bool
 } derive(@debug.Debug)
 
 pub struct Stream {
@@ -224,14 +1141,34 @@ pub struct Stream {
   temperature : Double
   components : Array[ComponentFlow]
 } derive(@debug.Debug)
+pub fn Stream::component_count(Self) -> Int
 pub fn Stream::component_fraction(Self, String) -> Double
 pub fn Stream::enthalpy_flow(Self) -> Double
 pub fn Stream::heat_capacity_flow(Self) -> Double
 pub fn Stream::mixture(id~ : String, components~ : Array[ComponentFlow], temperature~ : Double) -> Self
 pub fn Stream::molar_flow(Self) -> Double
 pub fn Stream::pure(id~ : String, substance~ : Substance, molar_flow~ : Double, temperature~ : Double) -> Self
+pub fn Stream::with_flow_factor(Self, Double) -> Self
 pub fn Stream::with_id(Self, String) -> Self
 pub fn Stream::with_temperature(Self, Double) -> Self
+pub fn Stream::with_temperature_offset(Self, Double) -> Self
+
+pub struct StreamAggregate {
+  count : Int
+  total_molar_flow : Double
+  total_enthalpy_flow : Double
+  weighted_temperature : Double
+  total_heat_capacity_flow : Double
+} derive(@debug.Debug)
+
+pub struct StreamSnapshot {
+  id : String
+  temperature : Double
+  molar_flow : Double
+  enthalpy_flow : Double
+  heat_capacity_flow : Double
+  component_count : Int
+} derive(@debug.Debug)
 
 pub struct Substance {
   id : String
@@ -251,6 +1188,46 @@ pub fn Substance::sensible_enthalpy_change(Self, Double, Double) -> Double
 pub fn Substance::with_formation_enthalpy(Self, Double) -> Self
 pub fn Substance::with_latent_heat(Self, transition_temperature~ : Double, heat~ : Double, direction~ : PhaseChangeDirection) -> Self
 
+pub struct TankSizing {
+  working_volume_m3 : Double
+  volume_m3 : Double
+  diameter_m : Double
+  height_m : Double
+  residence_time_s : Double
+} derive(@debug.Debug)
+
+pub struct ThermalStreamTarget {
+  id : String
+  supply_c : Double
+  target_c : Double
+  heat_capacity_flow_kw_per_k : Double
+} derive(@debug.Debug)
+pub fn ThermalStreamTarget::ThermalStreamTarget(id~ : String, supply_c~ : Double, target_c~ : Double, heat_capacity_flow_kw_per_k~ : Double) -> Self
+
+pub struct TurbineExpansionResult {
+  inlet_enthalpy_kj_per_kg : Double
+  outlet_enthalpy_kj_per_kg : Double
+  specific_work_kj_per_kg : Double
+  outlet_quality : Double
+  outlet_temperature_c : Double
+} derive(@debug.Debug)
+
+pub struct UncertaintyEnvelope {
+  nominal : Double
+  low : Double
+  high : Double
+  relative_half_width : Double
+} derive(@debug.Debug)
+
+pub struct UtilityDesign {
+  name : String
+  duty_w : Double
+  required_mass_flow_kg_per_s : Double
+  inlet_temperature_c : Double
+  outlet_temperature_c : Double
+  cost_index : Double
+} derive(@debug.Debug)
+
 pub struct UtilityEstimate {
   name : String
   duty : Double
@@ -269,4 +1246,3 @@ pub enum ValidationIssue {
 // Type aliases
 
 // Traits
-
