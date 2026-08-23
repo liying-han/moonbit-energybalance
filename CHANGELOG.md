@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.2.2
+
+- Documented the operating-envelope API, its screening assumptions, and its
+  boundary-test coverage.
+
 ## 0.2.1
 
 - Added operating-window scanning, feasibility filtering, Pareto selection,

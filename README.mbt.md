@@ -23,7 +23,8 @@ enthalpy is kJ/kg, and duty is W.
   steam states and interpolation tables, and common water transport properties.
 - Process analysis: reaction stoichiometry and duty, kinetics, recycle
   convergence, network propagation, scheduling, sensitivity, uncertainty,
-  dynamic lumped heating, and utility cost estimates.
+  dynamic lumped heating, utility cost estimates, and operating-envelope
+  scanning with Pareto selection, ramp planning, and CSV reporting.
 
 The correlations are deterministic screening models. Their assumptions and
 validity ranges are documented in
@@ -77,8 +78,9 @@ types/substance/stream form the thermodynamic core; balance,
 unit_operations, and heat_exchanger provide process operations; psychrometrics,
 steam_*, and fluid_properties provide property estimates; reaction_*,
 network*, sensitivity, uncertainty, dynamics, and operating_costs provide
-analysis layers. cmd/main is the usage demo and benchmarks is an independent
-native executable.
+analysis layers. operating_envelope provides constraint-aware process
+windows, grid evaluation, multi-objective selection, and operating plans.
+cmd/main is the usage demo and benchmarks is an independent native executable.
 
 ## Tests
 
@@ -86,6 +88,9 @@ The test suite covers normal calculations and boundary behavior including empty
 mixtures, invalid fractions and temperatures, equal-temperature LMTD, latent
 heat crossings, near-singular utility calculations, missing network inputs,
 non-convergent recycle factors, capped kinetics, and zero-duration dynamics.
+Operating-envelope tests also cover invalid constraints, empty selections,
+duplicate points, feasibility projection, interpolation, Pareto selection,
+reverse ramps, and deterministic report exports.
 
 ```bash
 moon fmt --check

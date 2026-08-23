@@ -40,6 +40,21 @@ and expose validation or convergence results when a number cannot be trusted.
 Callers should still validate inputs with validate_process and the relevant
 contract helpers before using a result in a design decision.
 
+## Operating envelopes
+
+Operating points combine temperature, mass flow, pressure, duty, operating
+cost, and emissions into one auditable record. OperatingConstraints defines
+the admissible window; scan_operating_envelope evaluates a deterministic grid
+of candidate states; envelope_best_weighted and envelope_pareto_frontier
+support cost/duty/emissions trade-offs; ramp_plan estimates the time and
+energy required to move between selected states. CSV exports preserve the
+calculation basis for downstream review.
+
+Envelope selection is a screening aid rather than an automatic control
+signal. The package reports invalid inputs and infeasible points explicitly,
+and projection helpers clamp process states only when the caller requests
+that behavior.
+
 ## Scope limits
 
 The package does not provide certified steam tables, electrolyte or
